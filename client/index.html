@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Pacman mmorpg</title>
+</head>
+<body>
+	
+<style>
+	.world {
+		width: 500px;
+		height: 400px;
+		border: 1px solid black;
+		box-sizing: border-box;
+		margin: 50px auto;
+		position: relative;
+	}
+
+	.player {
+		width: 50px;
+		height: 50px;
+		position: absolute;
+		background: red;
+	}
+</style>
+
+<div class="world"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+<script>
+	class World {
+		constructor(element) {
+			this._element = document.querySelector(element);
+		}
+
+		on(event, handler) {
+			this._element.addEventListener(event, handler);
+		}
+
+		addPlayer(player) {
+			this._element.appendChild(player);
+		}
+	}
+
+	class Packet {
+		constructor(data) {
+			this._data = data;
+		}
+
+		send() {
+			return JSON.stringify(this._data)
+		}
+
+		receive() {
+			return JSON.parse(this._data);
+		}
+	}
+
+	class Player {
+		constructor(name) {
+			this._name = name;
+		}
+
+		create() {
+			this._player = document.createElement("div");
+			this._player.classList.add("player");
+			this._player.classList.add(this._name);
+
+			return this._player;
+		}
+
+		move(x, y) {
+			this._player.style.left = x + "px";
+			this._player.style.top = y + "px";
+		}
+	}
+
+	var world = new World(".world");
+	var player = new Player("pacman")
+	var socket = new io("http://127.0.0.1:7777");
+
+	world.addPlayer(player.create())
+	world.on("click", coordinateHandler)
+	socket.on("server", socketHandler);
+
+	function coordinateHandler(data) {
+		var data = { 
+			type: "move",
+			data: {
+				x: data.offsetX, 
+				y: data.offsetY
+			}
+		}
+
+		socket.emit("client", new Packet(data).send())
+	}
+
+	function socketHandler(data) {
+		var packet = new Packet(data).receive();
+
+		switch(packet.type) {
+			case "move":
+				player.move(packet.data.x, packet.data.y)
+
+				break;
+		}
+	}
+
+</script>
+
+</body>
+</html>
