@@ -17,8 +17,6 @@
 	}
 
 	.player {
-		width: 50px;
-		height: 50px;
 		position: absolute;
 		background: red;
 	}
@@ -57,36 +55,80 @@
 	}
 
 	class Player {
-		constructor(name) {
+		constructor(name, width = 50, height = 50) {
 			this._name = name;
+			this._width = width;
+			this._height = height;
+			this._x = 0;
+			this._y = 0;
+			this._timer = null;
 		}
 
 		create() {
 			this._player = document.createElement("div");
 			this._player.classList.add("player");
 			this._player.classList.add(this._name);
+			this._player.style.width = this._width + "px";
+			this._player.style.height = this._height + "px";
 
 			return this._player;
 		}
 
 		move(x, y) {
-			this._player.style.left = x + "px";
-			this._player.style.top = y + "px";
+			clearInterval(this._timer);
+			this._drawLine(this._x, this._y, x, y, handler.bind(this));
+
+			function handler(x, y) {
+				this._player.style.left = (x - this._width / 2) + "px";
+				this._player.style.top = (y - this._height / 2) + "px";
+				this._x = x;
+				this._y = y;
+			}
+		}
+
+		_drawLine(x1, y1, x2, y2, callback) {
+		    var deltaX = Math.abs(x2 - x1);
+		    var deltaY = Math.abs(y2 - y1);
+		    var signX = x1 < x2 ? 1 : -1;
+		    var signY = y1 < y2 ? 1 : -1;
+		    var error = deltaX - deltaY;
+		   	this._timer = setInterval(tick, 10);
+
+		   	function tick() {
+		   		if(x1 != x2 || y1 != y2) {
+			        var error2 = error * 2;
+			        
+			        if(error2 > -deltaY) {
+			            error -= deltaY;
+			            x1 += signX;
+			        }
+			        
+			        if(error2 < deltaX) {
+			            error += deltaX;
+			            y1 += signY;
+			        }
+
+			        callback(x1, y1);
+		    	}
+		   	}
 		}
 	}
 
 	var world = new World(".world");
-	var player = new Player("pacman")
 	var socket = new io("http://127.0.0.1:7777");
+	var login = "pacman";
+	var player;
 
-	world.addPlayer(player.create())
 	world.on("click", coordinateHandler)
 	socket.on("server", socketHandler);
 
+	init();
+
 	function coordinateHandler(data) {
 		var data = { 
-			type: "move",
+			type: "requestMove",
 			data: {
+				login: login,
 				x: data.offsetX, 
 				y: data.offsetY
 			}
@@ -103,7 +145,32 @@
 				player.move(packet.data.x, packet.data.y)
 
 				break;
+			case "playersInfo":
+				var players = packet.data;
+
+				players.forEach(data => {
+					if(data.login === login) {
+						player = new Player(data.login);
+						world.addPlayer(player.create());
+					} else {
+						var anotherPlayer = new Player(data.login);
+						world.addPlayer(anotherPlayer.create());
+					}
+
+				})
+
+				break;
 		}
+	}
+
+	function init() {
+		var data = {
+			type: "requestAuth",
+			data: {
+				login: login
+			}
+		}
+		socket.emit("client", new Packet(data).send());
 	}
 
 </script>
