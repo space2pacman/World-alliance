@@ -24,16 +24,20 @@ class Player {
 		this._drawLine(this._x, this._y, x, y, handler.bind(this));
 
 		function handler(x, y) {
-			//
 			if(logins.data === logins.current) {
-				var map = document.querySelector(".map");
-				map.style.left = -(x - 225) + "px";
-				map.style.top = -(y - 185) + "px";
+				var data = { 
+					detail: { 
+						x: x, 
+						y: y 
+					}
+
+				}
+				window.dispatchEvent(new CustomEvent("moveMap", data))
 			} else {
-				this._player.style.left = (x) + "px";
-				this._player.style.top = (y) + "px";
+				this._player.style.left = (x - 25) + "px";
+				this._player.style.top = (y - 25) + "px";
 			}
-			//
+
 			this._x = x;
 			this._y = y;
 		}

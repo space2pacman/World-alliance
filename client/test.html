@@ -18,7 +18,7 @@
 	var world = new World(".world", 500, 400);
 	var socket = new io("http://127.0.0.1:7777");
 	var players = new Players();
-	var login = "pacman";
+	var login = "test";
 	var player;
 
 	world.on("click", coordinateHandler)
@@ -50,7 +50,7 @@
 							player = new Player(data.login);
 							world.addPlayer(player.create());
 							players.add(player);
-							player.setPosition(world.width / 2 - player.width / 2, world.height / 2 - player.height / 2);
+							player.setPosition(world.width / 2 - player.width / 2, world.height / 2 - player.height / 2 /* remove */)
 						} else {
 							var anotherPlayer = new Player(data.login);
 
