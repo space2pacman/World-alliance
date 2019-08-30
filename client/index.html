@@ -18,7 +18,14 @@
 
 	.player {
 		position: absolute;
+	}
+
+	.pacman {
 		background: red;
+	}
+
+	.test {
+		background: blue;
 	}
 </style>
 
@@ -29,6 +36,7 @@
 	class World {
 		constructor(element) {
 			this._element = document.querySelector(element);
+			this._objects = [];
 		}
 
 		on(event, handler) {
@@ -36,8 +44,25 @@
 		}
 
 		addPlayer(player) {
-			this._element.appendChild(player);
+			this._objects.push(player);
 		}
+
+		placeObjects() {
+			for(var i = 0; i < this._objects.length; i++) {
+				this._element.appendChild(this._objects[i]);
+			}
+		}
+
+		exists(value) {
+			var values = [];
+
+			for(var i = 0; i < this._objects.length; i++) {
+				values.push(this._objects[i].getAttribute("nickname"));
+			}
+
+			return values.includes(value);
+		}
+
 	}
 
 	class Packet {
@@ -70,6 +95,7 @@
 			this._player.classList.add(this._name);
 			this._player.style.width = this._width + "px";
 			this._player.style.height = this._height + "px";
+			this._player.setAttribute("nickname", this._name);
 
 			return this._player;
 		}
@@ -114,8 +140,23 @@
 		}
 	}
 
+	class Players {
+		constructor() {
+			this._players = [];
+		}
+
+		add(player) {
+			this._players.push(player);
+		}
+
+		getPlayers() {
+			return this._players;
+		}
+	}
+
 	var world = new World(".world");
 	var socket = new io("http://127.0.0.1:7777");
+	var players = new Players();
 	var login = "pacman";
 	var player;
 
@@ -141,24 +182,32 @@
 		var packet = new Packet(data).receive();
 
 		switch(packet.type) {
-			case "move":
-				player.move(packet.data.x, packet.data.y)
-
-				break;
 			case "playersInfo":
-				var players = packet.data;
+				packet.data.forEach(data => {
+					if(!world.exists(data.login)) {
+						if(data.login === login) {
+							player = new Player(data.login);
+							world.addPlayer(player.create());
+							players.add(player);
+						} else {
+							var anotherPlayer = new Player(data.login);
 
-				players.forEach(data => {
-					if(data.login === login) {
-						player = new Player(data.login);
-						world.addPlayer(player.create());
-					} else {
-						var anotherPlayer = new Player(data.login);
-						world.addPlayer(anotherPlayer.create());
+							world.addPlayer(anotherPlayer.create());
+							players.add(anotherPlayer);
+						}
 					}
-
 				})
 
+				world.placeObjects();
+
+				break;
+			case "move":
+				players.getPlayers().forEach((player, index) => {
+					var x = packet.data[index].x;
+					var y = packet.data[index].y;
+
+					player.move(x, y);
+				})
 				break;
 		}
 	}
@@ -167,7 +216,9 @@
 		var data = {
 			type: "requestAuth",
 			data: {
-				login: login
+				login: login,
+				x: 0,
+				y: 0
 			}
 		}
 		socket.emit("client", new Packet(data).send());

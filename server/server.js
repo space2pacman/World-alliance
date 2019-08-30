@@ -22,11 +22,21 @@ class Players {
 	getPlayers() {
 		return this._players;
 	}
+
+	getPlayer(login) {
+		for(var i = 0; i < this._players.length; i++) {
+			if(this._players[i].login === login) {
+				return this._players[i];
+			}
+		}
+	}
 }
 
 class Player {
 	constructor(params) {
 		this.login = params.login;
+		this.x = params.x;
+		this.y = params.y;
 	}
 }
 
@@ -54,9 +64,15 @@ server.on("connection", socket => {
 			case "requestAuth":
 				var authPacket = decryptPacket.data;
 				var login = authPacket.login;
+				var x = authPacket.x;
+				var y = authPacket.y;
 
 				if(!players.exists("login", login)) {
-					var player = new Player({ login: login })
+					var player = new Player({ 
+						login: login,
+						x: x,
+						y: y
+					})
 
 					players.add(player);
 				}
@@ -70,8 +86,20 @@ server.on("connection", socket => {
 
 				break;
 			case "requestMove":
-				console.log(decryptPacket.data.login)
+				var login = decryptPacket.data.login;
+				var x = decryptPacket.data.x;
+				var y = decryptPacket.data.y;
+				var player = players.getPlayer(login);
 
+				player.x = x;
+				player.y = y;
+
+				var data = {
+					type: "move",
+					data: players.getPlayers()
+				}
+
+				server.emit("server", new Packet(data).send());
 				break;
 		}
 	})
