@@ -1,63 +1,16 @@
 var server = require("socket.io")(7777);
-
-class Players {
-	constructor() {
-		this._players = [];
-	}
-
-	exists(key, value) {
-		var values = [];
-
-		for(var i = 0; i < this._players.length; i++) {
-			values.push(this._players[i][key]);
-		}
-
-		return values.includes(value);
-	}
-
-	add(player) {
-		this._players.push(player);
-	}
-
-	getPlayers() {
-		return this._players;
-	}
-
-	getPlayer(login) {
-		for(var i = 0; i < this._players.length; i++) {
-			if(this._players[i].login === login) {
-				return this._players[i];
-			}
-		}
-	}
-}
-
-class Player {
-	constructor(params) {
-		this.login = params.login;
-		this.x = params.x;
-		this.y = params.y;
-	}
-}
-
-class Packet {
-	constructor(data) {
-		this._data = data;
-	}
-
-	send() {
-		return JSON.stringify(this._data)
-	}
-
-	receive() {
-		return JSON.parse(this._data);
-	}
-}
-
+var Packet = require("./js/Packet.js");
+var Player = require("./js/Player.js");
+var Players = require("./js/Players.js");
 var players = new Players();
 
-server.on("connection", socket => {
-	socket.on("client", packet => {
+server.on("connection", socketHandler);
+
+function socketHandler(socket) {
+	socket.on("client", packetHandler);
+}
+
+function packetHandler(packet) {
 		var decryptPacket = new Packet(packet).receive();
 
 		switch(decryptPacket.type) {
@@ -102,5 +55,4 @@ server.on("connection", socket => {
 				server.emit("server", new Packet(data).send());
 				break;
 		}
-	})
-})
+	}

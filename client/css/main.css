@@ -1,19 +1,192 @@
 body {
 	margin: 0;
+	overflow: hidden;
 }
 
 .world {
 	border: 1px solid black;
-	box-sizing: border-box;
 	margin: 50px auto;
 	position: relative;
 }
 
 .map {
-	background-image: url(https://www.gamedevmarket.net/wp-content/uploads/3e0be6b373a4e96faf9d2be89c184350.png);
     width: 100%;
     height: 100%;
     position: absolute;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+.cell {
+	width: 50px;
+	height: 50px;
+    z-index: -1;
+    background-size: 100%;
+}
+
+.surface-100 {
+	background-image: url("../img/100.png");
+}
+
+.surface-101 {
+	background-image: url("../img/101.png");
+}
+
+.surface-102 {
+	background-image: url("../img/102.png");
+}
+
+.surface-103 {
+	background-image: url("../img/103.png");
+}
+
+.surface-104 {
+	background-image: url("../img/104.png");
+}
+
+.surface-105 {
+	background-image: url("../img/105.png");
+}
+
+.surface-106 {
+	background-image: url("../img/106.png");
+}
+
+.surface-107 {
+	background-image: url("../img/107.png");
+}
+
+.surface-108 {
+	background-image: url("../img/108.png");
+}
+
+.surface-109 {
+	background-image: url("../img/109.png");
+}
+
+.surface-110 {
+	background-image: url("../img/110.png");
+}
+
+.surface-111 {
+	background-image: url("../img/111.png");
+}
+
+.surface-112 {
+	background-image: url("../img/112.png");
+}
+
+.surface-113 {
+	background-image: url("../img/113.png");
+}
+
+.surface-114 {
+	background-image: url("../img/114.png");
+}
+
+.surface-115 {
+	background-image: url("../img/115.png");
+}
+
+.surface-116 {
+	background-image: url("../img/116.png");
+}
+
+.surface-117 {
+	background-image: url("../img/117.png");
+}
+
+.surface-118 {
+	background-image: url("../img/118.png");
+}
+
+.surface-119 {
+	background-image: url("../img/119.png");
+}
+
+.surface-120 {
+	background-image: url("../img/120.png");
+}
+
+.surface-121 {
+	background-image: url("../img/121.png");
+}
+
+.surface-122 {
+	background-image: url("../img/122.png");
+}
+
+.surface-123 {
+	background-image: url("../img/123.png");
+}
+
+.surface-124 {
+	background-image: url("../img/124.png");
+}
+
+.surface-125 {
+	background-image: url("../img/125.png");
+}
+
+.surface-126 {
+	background-image: url("../img/126.png");
+}
+
+.surface-127 {
+	background-image: url("../img/127.png");
+}
+
+.surface-128 {
+	background-image: url("../img/128.png");
+}
+
+.surface-129 {
+	background-image: url("../img/129.png");
+}
+
+.surface-130 {
+	background-image: url("../img/130.png");
+}
+
+.surface-131 {
+	background-image: url("../img/131.png");
+}
+
+.surface-132 {
+	background-image: url("../img/132.png");
+}
+
+.surface-133 {
+	background-image: url("../img/133.png");
+}
+
+.surface-134 {
+	background-image: url("../img/134.png");
+}
+
+.surface-135 {
+	background-image: url("../img/135.png");
+}
+
+.surface-136 {
+	background-image: url("../img/136.png");
+}
+
+.surface-137 {
+	background-image: url("../img/137.png");
+}
+
+.surface-138 {
+	background-image: url("../img/138.png");
+}
+
+.surface-139 {
+	background-image: url("../img/139.png");
+}
+
+.surface-140 {
+	background-image: url("../img/140.png");
 }
 
 .player {
