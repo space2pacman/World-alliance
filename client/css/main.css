@@ -10,12 +10,16 @@ body {
 }
 
 .map {
-    width: 100%;
-    height: 100%;
-    position: absolute;
+	position: absolute;
+}
+
+.map > div {
+    width: inherit;
+    height: inherit;
     display: flex;
     flex-wrap: wrap;
     align-content: flex-start;
+    position: absolute;
 }
 
 .cell {
@@ -187,6 +191,78 @@ body {
 
 .surface-140 {
 	background-image: url("../img/140.png");
+}
+
+.tree-201 {
+	background-image: url("../img/201.png");
+}
+
+.tree-202 {
+	background-image: url("../img/202.png");
+}
+
+.tree-203 {
+	background-image: url("../img/203.png");
+}
+
+.tree-204 {
+	background-image: url("../img/204.png");
+}
+
+.tree-205 {
+	background-image: url("../img/205.png");
+}
+
+.tree-206 {
+	background-image: url("../img/206.png");
+}
+
+.tree-207 {
+	background-image: url("../img/207.png");
+}
+
+.tree-208 {
+	background-image: url("../img/208.png");
+}
+
+.tree-209 {
+	background-image: url("../img/209.png");
+}
+
+.tree-210 {
+	background-image: url("../img/210.png");
+}
+
+.tree-211 {
+	background-image: url("../img/211.png");
+}
+
+.tree-212 {
+	background-image: url("../img/212.png");
+}
+
+.tree-213 {
+	background-image: url("../img/213.png");
+}
+
+.tree-214 {
+	background-image: url("../img/214.png");
+}
+
+.tree-215 {
+	background-image: url("../img/215.png");
+}
+
+.tree-216 {
+	background-image: url("../img/216.png");
+}
+
+.tree-217 {
+	background-image: url("../img/217.png");
+}
+
+.tree-218 {
+	background-image: url("../img/218.png");
 }
 
 .player {
