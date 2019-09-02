@@ -19,10 +19,20 @@
 	var socket = new io("http://127.0.0.1:7777");
 	var players = new Players();
 	var login = "pacman";
-	var player;
+	var player = new Player(login);
 
-	world.on("click", coordinateHandler)
+	world.on("click", coordinateHandler);
 	socket.on("server", socketHandler);
+	// player.on("playerStartMove", function() {
+	// 	var character = this.getCharacter();
+
+	// 	character.classList.add("player--move");
+	// })
+	// player.on("playerStopMove", function() {
+	// 	var character = this.getCharacter();
+
+	// 	character.classList.remove("player--move");
+	// })
 
 	init();
 
@@ -47,7 +57,6 @@
 				packet.data.forEach(data => {
 					if(!world.exists(data.login)) {
 						if(data.login === login) {
-							player = new Player(data.login);
 							world.addPlayer(player.create());
 							players.add(player);
 							player.setPosition(world.width / 2 - player.width / 2, world.height / 2 - player.height / 2);

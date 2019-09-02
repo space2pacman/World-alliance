@@ -19,27 +19,44 @@ class Player {
 		return this._player;
 	}
 
+	// dispatchEvent(event) {
+	// 	window.dispatchEvent(new CustomEvent(event))
+	// }
+
+	getCharacter() {
+		return this._player;
+	}
+
+	on(event, handler) {
+		window.addEventListener(event, handler.bind(this));
+	}
+
 	move(x, y, logins) {
 		clearInterval(this._timer);
+		//this.dispatchEvent("playerStartMove");
 		this._drawLine(this._x, this._y, x, y, handler.bind(this));
 
-		function handler(x, y) {
+		function handler(currentX, currentY) {
 			if(logins.data === logins.current) {
 				var data = { 
 					detail: { 
-						x: x, 
-						y: y 
+						x: currentX, 
+						y: currentY 
 					}
 
 				}
 				window.dispatchEvent(new CustomEvent("moveMap", data))
 			} else {
-				this._player.style.left = (x - 25) + "px";
-				this._player.style.top = (y - 25) + "px";
+				this._player.style.left = (currentX - 25) + "px";
+				this._player.style.top = (currentY - 25) + "px";
 			}
 
-			this._x = x;
-			this._y = y;
+			this._x = currentX;
+			this._y = currentY;
+
+			// if(this._x === x && this._y === y) {
+			// 	this.dispatchEvent("playerStopMove");
+			// }
 		}
 	}
 
