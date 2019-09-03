@@ -13,6 +13,19 @@ body {
 	position: absolute;
 }
 
+.map:after {
+    content: "";
+    display: block;
+    background: url("../img/126.png");
+    width: 10000px;
+    height: 10000px;
+    position: absolute;
+    top: -1000px;
+    left: -1000px;
+    z-index: -2;
+    background-size: 50px;
+}
+
 .map > div {
     width: inherit;
     height: inherit;
@@ -949,11 +962,65 @@ body {
 	position: absolute;
 	border: 1px solid black;
 	box-sizing: border-box;
+  background-image: url("../img/character/character.png");
+  background-position-y: -141px;
+  background-position-x: -6px;
 }
+
+.player--walk {
+  animation: characterWalk .7s infinite step-end;
+}
+
+.player--walk-up {
+  background-position-y: -525px;
+}
+
+.player--walk-left {
+  background-position-y: -591px;
+}
+
+.player--walk-down {
+  background-position-y: -652px;
+}
+
+.player--walk-right {
+  background-position-y: -718px;
+}
+
 .pacman {
-	background: red;
+
 }
 
 .test {
 	background: blue;
+}
+
+@keyframes characterWalk {
+  0% {
+    background-position-x: -6px;
+  }
+  11% {
+    background-position-x: -70px;
+  }
+  22% {
+    background-position-x: -134px;
+  }
+  33% {
+    background-position-x: -198px;
+  }
+  44% {
+    background-position-x: -262px;
+  }
+  55% {
+    background-position-x: -326px;
+  }
+  66% {
+    background-position-x: -390px;
+  }
+  77% {
+    background-position-x: -454px;
+  }
+  88% {
+    background-position-x: -518px;
+  }
 }

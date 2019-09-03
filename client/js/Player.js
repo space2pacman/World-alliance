@@ -19,9 +19,9 @@ class Player {
 		return this._player;
 	}
 
-	// dispatchEvent(event) {
-	// 	window.dispatchEvent(new CustomEvent(event))
-	// }
+	dispatchEvent(event, data) {
+		window.dispatchEvent(new CustomEvent(event, { detail: data }));
+	}
 
 	getCharacter() {
 		return this._player;
@@ -31,10 +31,40 @@ class Player {
 		window.addEventListener(event, handler.bind(this));
 	}
 
+	getAngle(x1, y1, x2, y2) {
+		return Math.floor(Math.atan2(y1-y2,x1-x2)*(180/Math.PI) + 180);
+	}
+
+	getDirections(x1, y1, x2, y2) {
+		var directions = [];
+		var angle = this.getAngle(x1, y1, x2, y2);
+		
+		if(angle >= 315 || angle <= 45) {
+			directions.push("right");
+		}
+
+		if(angle >= 45 && angle <= 135) {
+			directions.push("down");
+		}
+
+		if(angle >= 135 &&  angle <= 225) {
+			directions.push("left");
+		}
+
+		if(angle >= 225 && angle <= 315) {
+			directions.push("up");
+		}
+
+		return directions;
+	}
+
 	move(x, y, logins) {
+		var allDirections = ["left", "right", "up", "down"];
+
 		clearInterval(this._timer);
-		//this.dispatchEvent("playerStartMove");
-		this._drawLine(this._x, this._y, x, y, handler.bind(this));
+		this.dispatchEvent("playerStopMove", allDirections);
+		this.dispatchEvent("playerStartMove", this.getDirections(this._x, this._y, x, y));
+		this._drawPath(this._x, this._y, x, y, handler.bind(this));
 
 		function handler(currentX, currentY) {
 			if(logins.data === logins.current) {
@@ -54,9 +84,9 @@ class Player {
 			this._x = currentX;
 			this._y = currentY;
 
-			// if(this._x === x && this._y === y) {
-			// 	this.dispatchEvent("playerStopMove");
-			// }
+			if(this._x === x && this._y === y) {
+				this.dispatchEvent("playerStopMove", allDirections);
+			}
 		}
 	}
 
@@ -65,7 +95,7 @@ class Player {
 		this._player.style.top = y + "px";
 	}
 
-	_drawLine(x1, y1, x2, y2, callback) {
+	_drawPath(x1, y1, x2, y2, callback) {
 		var deltaX = Math.abs(x2 - x1);
 		var deltaY = Math.abs(y2 - y1);
 		var signX = x1 < x2 ? 1 : -1;

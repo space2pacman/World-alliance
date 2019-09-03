@@ -23,16 +23,19 @@
 
 	world.on("click", coordinateHandler);
 	socket.on("server", socketHandler);
-	// player.on("playerStartMove", function() {
-	// 	var character = this.getCharacter();
+	player.on("playerStartMove", function(directions) {
+		var character = this.getCharacter();
 
-	// 	character.classList.add("player--move");
-	// })
-	// player.on("playerStopMove", function() {
-	// 	var character = this.getCharacter();
+		character.classList.add("player--walk");
+		directions.detail.forEach(direction => character.classList.add("player--walk-" + direction));
 
-	// 	character.classList.remove("player--move");
-	// })
+	})
+	player.on("playerStopMove", function(directions) {
+		var character = this.getCharacter();
+
+		character.classList.remove("player--walk");
+		directions.detail.forEach(direction => character.classList.remove("player--walk-" + direction))
+	})
 
 	init();
 
