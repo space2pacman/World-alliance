@@ -13,33 +13,41 @@ body {
 	position: absolute;
 }
 
+/* for test */
+.collision-101 {
+  background: #0f0;
+}
+/* for test */
+
 .map:after {
-    content: "";
-    display: block;
-    background: url("../img/126.png");
-    width: 10000px;
-    height: 10000px;
-    position: absolute;
-    top: -1000px;
-    left: -1000px;
-    z-index: -2;
-    background-size: 50px;
+  content: "";
+  display: block;
+  background: url("../img/126.png");
+  width: 3000px;
+  height: 3000px;
+  position: absolute;
+  top: -1000px;
+  left: -1000px;
+  z-index: -2;
+  background-size: 50px;
 }
 
 .map > div {
-    width: inherit;
-    height: inherit;
-    display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    position: absolute;
+  width: inherit;
+  height: inherit;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  position: absolute;
 }
 
 .cell {
 	width: 50px;
 	height: 50px;
-    z-index: -1;
-    background-size: 100%;
+  z-index: -1;
+  background-size: 100%;
+  border: 1px solid;
+  box-sizing: border-box;
 }
 
 .surface-100 {

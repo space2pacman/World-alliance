@@ -47,7 +47,7 @@ var map = {
 		[200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200],
 		[200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200]
 	],
-	building: [
+	buildings: [
 		[300,300,300,300,300,300,300,300,300,300,300,300,300,300,300,300,300,300,300,300],
 		[300,300,300,300,300,300,300,300,300,300,300,300,300,300,300,300,300,300,300,300],
 		[300,300,300,300,300,300,300,300,300,300,208,300,300,300,300,300,300,300,300,300],
@@ -112,8 +112,31 @@ var map = {
 		[500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500],
 		[500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500],
 		[500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500]
-	]
+	],
 };
+
+var collisions = [
+	[100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100],
+	[100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100],
+	[100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100],
+	[100,100,101,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100],
+	[100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100],
+	[100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100],
+	[100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100],
+	[100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100],
+	[100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100],
+	[100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100],
+	[100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100],
+	[100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100],
+	[100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100],
+	[100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100],
+	[100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100],
+	[100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100],
+	[100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100],
+	[100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100],
+	[100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100],
+	[100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100]
+]
 
 class World {
 	constructor(element, width, height, cellWidth, cellHeight) {
@@ -158,22 +181,147 @@ class World {
 		return values.includes(value);
 	}
 
+	checkCollision(x1, y1, x2, y2) {
+		var path = this._getPath(x1, y1, x2, y2);
+		var coordinates = {
+			x: x2,
+			y: y2
+		}
+
+		for(var i = 0; i < path.length; i++) {
+			var x = path[i].index.x;
+			var y = path[i].index.y;
+
+			if(collisions[y][x] === 101) {
+				if(x1 < x*50) {
+					coordinates.x = path[i].coordinates.x - 25;
+				} else { 
+					coordinates.x = path[i].coordinates.x + 25;
+				}
+				if(y1 < y*50) {
+					coordinates.y = path[i].coordinates.y - 25;
+				} else {
+					coordinates.y = path[i].coordinates.y + 25;
+				}
+
+				if(coordinates.x - 1 === x1) {
+					coordinates.x = coordinates.x - 1;
+				}
+				if(coordinates.x + 1 === x1) {
+					coordinates.x = coordinates.x + 1;
+				}
+				if(coordinates.y - 1 === y1) {
+					coordinates.y = coordinates.y - 1;
+				}
+				if(coordinates.y + 1 === y1) {
+					coordinates.y = coordinates.y + 1;
+				}
+			}
+			
+
+		}
+//console.log(coordinates)
+		return coordinates;
+	}
+
+	_getPath(x1, y1, x2, y2) {
+		var path = [];
+		//this._drawPath(x1, y1, x2, y2, handler.bind(this));
+		this._drawPath(x1+25, y1-25, x2+25, y2-25, handler.bind(this));
+		this._drawPath(x1+25, y1+25, x2+25, y2+25, handler.bind(this));
+		this._drawPath(x1-25, y1-25, x2-25, y2-25, handler.bind(this));
+		this._drawPath(x1-25, y1+25, x2-25, y2+25, handler.bind(this));
+
+		//
+		var collisionEl = document.querySelector(".collisions");
+		//
+
+		function handler(x, y) {
+			var cell = this._getCellIndex(x, y);
+			var included = false;
+
+			for(var i = 0; i < path.length; i++) {
+				if(path[i].index.x === cell.index.x && path[i].index.y === cell.index.y) {
+					included = true;
+				}
+			}
+
+			if(!included && cell.index.x >= 0 && cell.index.y >= 0) {
+				cell.coordinates = {
+					x: x,
+					y: y
+				};
+				path.push(cell);
+			}
+		}
+		//
+		for(var j = 0; j < collisionEl.children.length; j++) {
+			collisionEl.children[j].style.background = "none";
+		}
+
+		for(var i = 0; i < path.length; i++) {
+			var x = path[i].index.x;
+			var y = path[i].index.y;
+
+			if(collisionEl.children[y * map.size.width + x]) {	
+				collisionEl.children[y * map.size.width + x].style.background = "red";
+			}
+
+		}
+		//
+
+		return path;
+	}
+
+	_drawPath(x1, y1, x2, y2, callback) {
+		var deltaX = Math.abs(x2 - x1);
+		var deltaY = Math.abs(y2 - y1);
+		var signX = x1 < x2 ? 1 : -1;
+		var signY = y1 < y2 ? 1 : -1;
+		var error = deltaX - deltaY;
+
+		while(x1 != x2 || y1 != y2) {
+			var error2 = error * 2;
+
+			if(error2 > -deltaY) {
+				error -= deltaY;
+				x1 += signX;
+			}
+
+			if(error2 < deltaX) {
+				error += deltaX;
+				y1 += signY;
+			}
+
+			callback(x1, y1);
+		}
+	}
+	
+
+	_getCellIndex(x, y) {
+		return { 
+			index: { 
+				x: Math.floor(x / 50), 
+				y: Math.floor(y / 50) 
+			}
+		};
+	}
+
+	_moveMap(e) {
+		var x = e.detail.x;
+		var y = e.detail.y;
+			
+		this._map.style.left = -(x - this.width / 2) + "px";
+		this._map.style.top = -(y - this.height / 2) + "px";
+	}
+
 	_createMap() {
 		this._map = document.createElement("div");
 		this._map.classList.add("map");
 		this._map.style.width = map.size.width * this._cellWidth + "px";
 		this._map.style.height = map.size.height * this._cellHeight + "px";
 		this._element.appendChild(this._map);
-
-		window.addEventListener("moveMap", handler.bind(this));
-
-		function handler(e) {
-			var x = e.detail.x;
-			var y = e.detail.y;
-			
-			this._map.style.left = -(x - this.width / 2) + "px";
-			this._map.style.top = -(y - this.height / 2) + "px";
-		}
+		window.addEventListener("moveMap", this._moveMap.bind(this));
 	}
 
 	_createCell() {
@@ -194,7 +342,7 @@ class World {
 
 	_fillMap() {
 		for(var type in map) {
-			if(type === "size") continue
+			if(type === "size") continue;
 
 			var field = this._createField(type);
 
@@ -228,7 +376,22 @@ class World {
 			}
 			
 			this._map.appendChild(field);
+
 		}
+			// for test
+			var field = this._createField("collisions");
+
+			for(var i = 0; i < collisions.length; i++) {
+				for(var j = 0; j < collisions[i].length; j++) {
+					var cell = this._createCell();
+
+					cell.classList.add(`collision-${collisions[i][j]}`);
+					field.appendChild(cell);
+				}
+			}
+
+			this._map.appendChild(field)
+			//
 	}
 
 	_init() {

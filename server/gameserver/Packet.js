@@ -3,11 +3,11 @@ class Packet {
 		this._data = data;
 	}
 
-	send() {
+	encrypt() {
 		return JSON.stringify(this._data)
 	}
 
-	receive() {
+	decrypt() {
 		return JSON.parse(this._data);
 	}
 }
