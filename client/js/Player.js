@@ -1,11 +1,13 @@
 class Player {
-	constructor(login, width = 50, height = 50) {
+	constructor(login, socket, width = 50, height = 50) {
 		this.width = width;
 		this.height = height;
 		this._login = login;
+		this._socket = socket;
 		this._x = 0;
 		this._y = 0;
 		this._timer = null;
+		this._init();
 	}
 
 	create() {
@@ -36,8 +38,8 @@ class Player {
 	}
 
 	getDirections(x1, y1, x2, y2) {
-		var directions = [];
-		var angle = this.getAngle(x1, y1, x2, y2);
+		let directions = [];
+		let angle = this.getAngle(x1, y1, x2, y2);
 		
 		if(angle >= 315 || angle <= 45) {
 			directions.push("right");
@@ -59,16 +61,16 @@ class Player {
 	}
 
 	move(x, y, logins) {
-		var allDirections = ["left", "right", "up", "down"];
+		let directions = ["left", "right", "up", "down"];
 
 		clearInterval(this._timer);
-		this.dispatchEvent("playerStopMove", allDirections);
-		this.dispatchEvent("playerStartMove", this.getDirections(this._x, this._y, x, y));
+		this.dispatchEvent("onStopMove", directions);
+		this.dispatchEvent("onStartMove", this.getDirections(this._x, this._y, x, y));
 		this._drawPath(this._x, this._y, x, y, handler.bind(this));
 
 		function handler(currentX, currentY) {
 			if(logins.data === logins.current) {
-				var data = { 
+				let data = { 
 					detail: { 
 						x: currentX, 
 						y: currentY 
@@ -85,7 +87,7 @@ class Player {
 			this._y = currentY;
 
 			if(this._x === x && this._y === y) {
-				this.dispatchEvent("playerStopMove", allDirections);
+				this.dispatchEvent("onStopMove", directions);
 			}
 		}
 	}
@@ -95,17 +97,21 @@ class Player {
 		this._player.style.top = y + "px";
 	}
 
+	sendPacket(data) {
+		this._socket.emit("onClient", data);
+	}
+
 	_drawPath(x1, y1, x2, y2, callback) {
-		var deltaX = Math.abs(x2 - x1);
-		var deltaY = Math.abs(y2 - y1);
-		var signX = x1 < x2 ? 1 : -1;
-		var signY = y1 < y2 ? 1 : -1;
-		var error = deltaX - deltaY;
+		let deltaX = Math.abs(x2 - x1);
+		let deltaY = Math.abs(y2 - y1);
+		let signX = x1 < x2 ? 1 : -1;
+		let signY = y1 < y2 ? 1 : -1;
+		let error = deltaX - deltaY;
 		this._timer = setInterval(tick, 10);
 
 		function tick() {
 			if(x1 != x2 || y1 != y2) {
-				var error2 = error * 2;
+				let error2 = error * 2;
 
 				if(error2 > -deltaY) {
 					error -= deltaY;
@@ -120,5 +126,24 @@ class Player {
 				callback(x1, y1);
 			}
 		}
+	}
+
+	_onStartMove(directions) {
+		let character = this.getCharacter();
+
+		character.classList.add("player--walk");
+		directions.detail.forEach(direction => character.classList.add("player--walk-" + direction));
+	}
+
+	_onStopMove(directions) {
+		let character = this.getCharacter();
+
+		character.classList.remove("player--walk");
+		directions.detail.forEach(direction => character.classList.remove("player--walk-" + direction))
+	}
+
+	_init() {
+		this.on("onStartMove", this._onStartMove.bind(this));
+		this.on("onStopMove", this._onStopMove.bind(this));
 	}
 }

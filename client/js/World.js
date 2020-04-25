@@ -1,4 +1,4 @@
-var map = {
+let map = {
 	size: {
 		width: 20,
 		height: 20
@@ -115,7 +115,7 @@ var map = {
 	],
 };
 
-var collisions = [
+let collisions = [
 	[100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100],
 	[100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100],
 	[100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100],
@@ -161,7 +161,7 @@ class World {
 	}
 
 	placeObjects(login) {
-		for(var i = 0; i < this._objects.length; i++) {
+		for(let i = 0; i < this._objects.length; i++) {
 			if(this._objects[i].getAttribute("login") === login) {
 				this._element.appendChild(this._objects[i]);
 			} else {
@@ -172,60 +172,55 @@ class World {
 	}
 
 	exists(value) {
-		var values = [];
+		let values = [];
 
-		for(var i = 0; i < this._objects.length; i++) {
+		for(let i = 0; i < this._objects.length; i++) {
 			values.push(this._objects[i].getAttribute("login"));
 		}
 
 		return values.includes(value);
 	}
 
-	checkCollision(x1, y1, x2, y2) {
-		var path = this._getPath(x1, y1, x2, y2);
-		var coordinates = {
-			x: x2,
-			y: y2
+	onServer(data) {
+		let decryptPacket = new Packet(data).decrypt();
+
+		switch(decryptPacket.type) {
+			case "playersInfo":
+				decryptPacket.data.forEach(data => {
+					if(!world.exists(data.login)) {
+						if(data.login === login) {
+							world.addPlayer(player.create());
+							players.add(player);
+							player.setPosition(world.width / 2 - player.width / 2, world.height / 2 - player.height / 2);
+						} else {
+							let anotherPlayer = new Player(data.login);
+
+							world.addPlayer(anotherPlayer.create());
+							players.add(anotherPlayer);
+						}
+					}
+				})
+
+				world.placeObjects(login);
+
+				break;
+			case "move":
+				players.getPlayers().forEach((player, index) => {
+					let x = decryptPacket.data[index].x;
+					let y = decryptPacket.data[index].y;
+					let logins = {
+						data: decryptPacket.data[index].login,
+						current: login
+					}
+
+					player.move(x, y, logins);
+				})
+			break;
 		}
-
-		for(var i = 0; i < path.length; i++) {
-			var x = path[i].index.x;
-			var y = path[i].index.y;
-
-			if(collisions[y][x] === 101) {
-				if(x1 < x*50) {
-					coordinates.x = path[i].coordinates.x - 25;
-				} else { 
-					coordinates.x = path[i].coordinates.x + 25;
-				}
-				if(y1 < y*50) {
-					coordinates.y = path[i].coordinates.y - 25;
-				} else {
-					coordinates.y = path[i].coordinates.y + 25;
-				}
-
-				if(coordinates.x - 1 === x1) {
-					coordinates.x = coordinates.x - 1;
-				}
-				if(coordinates.x + 1 === x1) {
-					coordinates.x = coordinates.x + 1;
-				}
-				if(coordinates.y - 1 === y1) {
-					coordinates.y = coordinates.y - 1;
-				}
-				if(coordinates.y + 1 === y1) {
-					coordinates.y = coordinates.y + 1;
-				}
-			}
-			
-
-		}
-//console.log(coordinates)
-		return coordinates;
 	}
 
 	_getPath(x1, y1, x2, y2) {
-		var path = [];
+		let path = [];
 		//this._drawPath(x1, y1, x2, y2, handler.bind(this));
 		this._drawPath(x1+25, y1-25, x2+25, y2-25, handler.bind(this));
 		this._drawPath(x1+25, y1+25, x2+25, y2+25, handler.bind(this));
@@ -233,14 +228,14 @@ class World {
 		this._drawPath(x1-25, y1+25, x2-25, y2+25, handler.bind(this));
 
 		//
-		var collisionEl = document.querySelector(".collisions");
+		let collisionEl = document.querySelector(".collisions");
 		//
 
 		function handler(x, y) {
-			var cell = this._getCellIndex(x, y);
-			var included = false;
+			let cell = this._getCellIndex(x, y);
+			let included = false;
 
-			for(var i = 0; i < path.length; i++) {
+			for(let i = 0; i < path.length; i++) {
 				if(path[i].index.x === cell.index.x && path[i].index.y === cell.index.y) {
 					included = true;
 				}
@@ -255,13 +250,13 @@ class World {
 			}
 		}
 		//
-		for(var j = 0; j < collisionEl.children.length; j++) {
+		for(let j = 0; j < collisionEl.children.length; j++) {
 			collisionEl.children[j].style.background = "none";
 		}
 
-		for(var i = 0; i < path.length; i++) {
-			var x = path[i].index.x;
-			var y = path[i].index.y;
+		for(let i = 0; i < path.length; i++) {
+			let x = path[i].index.x;
+			let y = path[i].index.y;
 
 			if(collisionEl.children[y * map.size.width + x]) {	
 				collisionEl.children[y * map.size.width + x].style.background = "red";
@@ -274,14 +269,14 @@ class World {
 	}
 
 	_drawPath(x1, y1, x2, y2, callback) {
-		var deltaX = Math.abs(x2 - x1);
-		var deltaY = Math.abs(y2 - y1);
-		var signX = x1 < x2 ? 1 : -1;
-		var signY = y1 < y2 ? 1 : -1;
-		var error = deltaX - deltaY;
+		let deltaX = Math.abs(x2 - x1);
+		let deltaY = Math.abs(y2 - y1);
+		let signX = x1 < x2 ? 1 : -1;
+		let signY = y1 < y2 ? 1 : -1;
+		let error = deltaX - deltaY;
 
 		while(x1 != x2 || y1 != y2) {
-			var error2 = error * 2;
+			let error2 = error * 2;
 
 			if(error2 > -deltaY) {
 				error -= deltaY;
@@ -308,8 +303,8 @@ class World {
 	}
 
 	_moveMap(e) {
-		var x = e.detail.x;
-		var y = e.detail.y;
+		let x = e.detail.x;
+		let y = e.detail.y;
 			
 		this._map.style.left = -(x - this.width / 2) + "px";
 		this._map.style.top = -(y - this.height / 2) + "px";
@@ -325,7 +320,7 @@ class World {
 	}
 
 	_createCell() {
-		var cell = document.createElement("div");
+		let cell = document.createElement("div");
 
 		cell.classList.add("cell");
 
@@ -333,7 +328,7 @@ class World {
 	}
 
 	_createField(type) {
-		var field = document.createElement("div");
+		let field = document.createElement("div");
 		
 		field.classList.add(type);
 
@@ -341,14 +336,14 @@ class World {
 	}
 
 	_fillMap() {
-		for(var type in map) {
+		for(let type in map) {
 			if(type === "size") continue;
 
-			var field = this._createField(type);
+			let field = this._createField(type);
 
-			for(var i = 0; i < map[type].length; i++) {
-				for(var j = 0; j < map[type][i].length; j++) {
-					var cell = this._createCell();
+			for(let i = 0; i < map[type].length; i++) {
+				for(let j = 0; j < map[type][i].length; j++) {
+					let cell = this._createCell();
 
 					if(map[type][i][j] >= 100 && map[type][i][j] <= 199) {
 						cell.classList.add(`surface-${map[type][i][j]}`);
@@ -379,11 +374,11 @@ class World {
 
 		}
 			// for test
-			var field = this._createField("collisions");
+			let field = this._createField("collisions");
 
-			for(var i = 0; i < collisions.length; i++) {
-				for(var j = 0; j < collisions[i].length; j++) {
-					var cell = this._createCell();
+			for(let i = 0; i < collisions.length; i++) {
+				for(let j = 0; j < collisions[i].length; j++) {
+					let cell = this._createCell();
 
 					cell.classList.add(`collision-${collisions[i][j]}`);
 					field.appendChild(cell);

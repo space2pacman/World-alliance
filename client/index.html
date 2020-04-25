@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="css/main.css">
-	<title>Pacman mmorpg</title>
+	<title>Pacman MMORPG</title>
 </head>
 <body>
 
@@ -14,102 +14,8 @@
 <script src="js/Packet.js"></script>
 <script src="js/Player.js"></script>
 <script src="js/Players.js"></script>
-<script>
-	var login = "pacman";
-	var world = new World(".world", 500, 400, 50, 50);
-	var socket = new io("http://127.0.0.1:7777");
-	var players = new Players();
-	var player = new Player(login);
-	var packet = new Packet(socket, "onClient");
-
-	world.on("click", coordinateHandler.bind(world));
-	socket.on("onServer", socketHandler);
-	player.on("playerStartMove", function(directions) {
-		var character = this.getCharacter();
-
-		character.classList.add("player--walk");
-		directions.detail.forEach(direction => character.classList.add("player--walk-" + direction));
-
-	})
-	player.on("playerStopMove", function(directions) {
-		var character = this.getCharacter();
-
-		character.classList.remove("player--walk");
-		directions.detail.forEach(direction => character.classList.remove("player--walk-" + direction))
-	})
-
-	packet.send(new RequestAuth(login));
-
-	function coordinateHandler(data) {
-		var coordinates = this.checkCollision(player._x, player._y, data.offsetX, data.offsetY);
-
-		packet.send(new RequestMove(login, coordinates.x, coordinates.y));
-	}
-
-	function socketHandler(data) {
-		var decryptPacket = packet.receive(data);
-
-		switch(decryptPacket.type) {
-			case "playersInfo":
-				decryptPacket.data.forEach(data => {
-					if(!world.exists(data.login)) {
-						if(data.login === login) {
-							world.addPlayer(player.create());
-							players.add(player);
-							player.setPosition(world.width / 2 - player.width / 2, world.height / 2 - player.height / 2);
-						} else {
-							var anotherPlayer = new Player(data.login);
-
-							world.addPlayer(anotherPlayer.create());
-							players.add(anotherPlayer);
-						}
-					}
-				})
-
-				world.placeObjects(login);
-
-				break;
-			case "move":
-				players.getPlayers().forEach((player, index) => {
-					var x = decryptPacket.data[index].x;
-					var y = decryptPacket.data[index].y;
-					var logins = {
-						data: decryptPacket.data[index].login,
-						current: login
-					}
-
-					player.move(x, y, logins);
-				})
-				break;
-		}
-	}
-
-	function RequestAuth(login) {
-		this._data = {
-			type: "requestAuth",
-			data: {
-				login: login,
-				x: 0,
-				y: 0
-			}
-		}
-
-		return this._data;
-	}
-
-	function RequestMove(logim, x, y) {
-		this._data = { 
-			type: "requestMove",
-			data: {
-				login: login,
-				x: x, 
-				y: y
-			}
-		}
-
-		return this._data;
-	}
-</script>
+<script src="js/clientPackets.js"></script>
+<script src="js/main.js"></script>
 
 </body>
 </html>

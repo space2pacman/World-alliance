@@ -1,14 +1,13 @@
 class Packet {
-	constructor(handler, event) {
-		this._handler = handler;
-		this._event = event;
+	constructor(data) {
+		this._data = data;
 	}
 
-	send(data) {
-		return this._handler.emit(this._event, JSON.stringify(data));
+	encrypt() {
+		return JSON.stringify(this._data)
 	}
 
-	receive(data) {
-		return JSON.parse(data);
+	decrypt() {
+		return JSON.parse(this._data);
 	}
 }
