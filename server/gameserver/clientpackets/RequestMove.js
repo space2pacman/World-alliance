@@ -1,10 +1,10 @@
 let Packet = require("./../Packet");
+let server = require("./../Server");
+let players = require("./../Players");
 
 class RequestMove {
-	constructor(packet, server, players) {
+	constructor(packet) {
 		this._packet = packet;
-		this._server = server;
-		this._players = players;
 		this._init();
 	}
 
@@ -13,17 +13,17 @@ class RequestMove {
 		let login = packet.login;
 		let x = packet.x;
 		let y = packet.y;
-		let player = this._players.getPlayer(login);
+		let player = players.getPlayer(login);
 
 		player.x = x;
 		player.y = y;
 
 		let data = {
 			type: "move",
-			data: this._players.getPlayers()
+			data: players.getPlayers()
 		}
 
-		this._server.send(new Packet(data).encrypt());
+		server.send(new Packet(data).encrypt());
 	}
 }
 

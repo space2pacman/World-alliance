@@ -1,3 +1,8 @@
 let io = require("socket.io")(7777);
-let Server = require("./gameserver/Server");
-let server = new Server(io);
+let server = require("./gameserver/Server");
+let clientPackets = require("./gameserver/clientpackets/packets");
+let Player = require("./gameserver/Player");
+let players = require("./gameserver/Players");
+
+server.setIO(io);
+server.setClientPackets(clientPackets);

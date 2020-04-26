@@ -30,4 +30,4 @@ class Players {
 	}
 }
 
-module.exports = Players;
+module.exports = new Players();

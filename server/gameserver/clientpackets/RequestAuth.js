@@ -1,11 +1,11 @@
 let Player = require("./../Player");
 let Packet = require("./../Packet");
+let server = require("./../Server");
+let players = require("./../Players");
 
 class RequestAuth {
-	constructor(packet, server, players) {
-		this._server = server;
+	constructor(packet) {
 		this._packet = packet;
-		this._players = players;
 		this._init();
 	}
 
@@ -15,22 +15,22 @@ class RequestAuth {
 		let x = packet.x;
 		let y = packet.y;
 
-		if(!this._players.exists("login", login)) {
+		if(!players.exists("login", login)) {
 			let player = new Player({ 
 				login: login,
 				x: x,
 				y: y
 			})
 
-			this._players.add(player);
+			players.add(player);
 		}
 
 		let data = {
 			type: "playersInfo",
-			data: this._players.getPlayers()
+			data: players.getPlayers()
 		}
 
-		this._server.send(new Packet(data).encrypt());
+		server.send(new Packet(data).encrypt());
 	}
 }
 

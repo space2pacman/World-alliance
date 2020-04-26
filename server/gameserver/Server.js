@@ -1,13 +1,18 @@
-let clientPackets = require("./clientpackets/packets");
 let Packet = require("./Packet");
-let Player = require("./Player");
-let Players = require("./Players");
-let players = new Players();
 
 class Server {
-	constructor(io) {
+	constructor() {
+		this._io = null;
+		this._clientPackets = null;
+	}
+
+	setIO(io) {
 		this._io = io;
-		this._init();
+		this._io.on("connection", this._onConnection.bind(this));
+	}
+
+	setClientPackets(packets) {
+		this._clientPackets = packets;
 	}
 
 	send(data) {
@@ -23,19 +28,15 @@ class Server {
 
 		switch(packet.type) {
 			case "requestAuth":
-				new clientPackets.RequestAuth(packet, this, players);
+				new this._clientPackets.RequestAuth(packet);
 
 				break;
 			case "requestMove":
-				new clientPackets.RequestMove(packet, this, players);
+				new this._clientPackets.RequestMove(packet);
 
 				break;
 		}
 	}
-
-	_init() {
-		this._io.on("connection", this._onConnection.bind(this));
-	}
 }
 
-module.exports = Server;
+module.exports = new Server();

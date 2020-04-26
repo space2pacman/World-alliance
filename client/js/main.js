@@ -1,6 +1,6 @@
 let login = "pacman";
-let world = new World(".world", 500, 400, 50, 50);
 let socket = new io("http://127.0.0.1:7777");
+let world = new World(".world", 500, 400, 50, 50);
 let players = new Players();
 let player = new Player(login, socket);
 let packet = new Packet(new clientPackets.RequestAuth(login).getData());
