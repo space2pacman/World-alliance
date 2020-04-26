@@ -12,12 +12,17 @@ class Player {
 	}
 
 	create() {
+		let login = document.createElement("div");
+
+		login.classList.add("player__login");
+		login.innerHTML = this.login;
 		this._character = document.createElement("div");
 		this._character.classList.add("player");
 		this._character.style.backgroundImage = `url(img/character/${this.login}.png)`
 		this._character.style.width = this.width + "px";
 		this._character.style.height = this.height + "px";
 		this._character.setAttribute("login", this.login);
+		this._character.appendChild(login);
 
 		return this._character;
 	}

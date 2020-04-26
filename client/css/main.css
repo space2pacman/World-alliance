@@ -1,6 +1,31 @@
 body {
-	margin: 0;
-	overflow: hidden;
+  margin: 0;
+  overflow: hidden;
+}
+
+.form {
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+}
+
+.form__input {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.form__button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  text-transform: uppercase;
+  background: #6d8ef3;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  outline: none;
 }
 
 .hidden {
@@ -971,11 +996,24 @@ body {
 }
 
 .player {
-	position: absolute;
-	border: 1px solid black;
-	box-sizing: border-box;
+  position: absolute;
+  border: 1px solid black;
+  box-sizing: border-box;
   background-position-y: -141px;
   background-position-x: -6px;
+}
+
+.player__login {
+  position: absolute;
+  color: #fff;
+  text-shadow: 0px 0px 2px black;
+  text-align: center;
+  top: -20px;
+  font-family: Arial;
+  transform: translateX(-50%);
+  margin-left: 50%;
+  width: 200%;
+  font-size: 12px;
 }
 
 .player--walk {
