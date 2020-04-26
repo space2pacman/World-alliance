@@ -187,34 +187,32 @@ class World {
 		switch(decryptPacket.type) {
 			case "playersInfo":
 				decryptPacket.data.forEach(data => {
-					if(!world.exists(data.login)) {
-						if(data.login === login) {
-							world.addPlayer(player.create());
+					if(!this.exists(data.login)) {
+						if(data.login === login.value) { // fix login - input, global var
+							this.addPlayer(player.create());
 							players.add(player);
-							player.setPosition(world.width / 2 - player.width / 2, world.height / 2 - player.height / 2);
+							player.setPosition(this.width / 2 - player.width / 2, this.height / 2 - player.height / 2);
 						} else {
 							let anotherPlayer = new Player(data.login);
 
-							world.addPlayer(anotherPlayer.create());
+							this.addPlayer(anotherPlayer.create());
 							players.add(anotherPlayer);
 						}
 					}
 				})
 
-				world.placeObjects(login);
+				this.placeObjects(login.value); // fix
 
 				break;
 			case "move":
-				players.getPlayers().forEach((player, index) => {
-					let x = decryptPacket.data[index].x;
-					let y = decryptPacket.data[index].y;
-					let logins = {
-						data: decryptPacket.data[index].login,
-						current: login
-					}
+				let x = decryptPacket.data.x;
+				let y = decryptPacket.data.y;
+				let logins = {
+					data: decryptPacket.data.login,
+					current: login.value // fix
+				}
 
-					player.move(x, y, logins);
-				})
+				player.move(x, y, logins);
 			break;
 		}
 	}
@@ -374,18 +372,18 @@ class World {
 
 		}
 			// for test
-			let field = this._createField("collisions");
+			// let field = this._createField("collisions");
 
-			for(let i = 0; i < collisions.length; i++) {
-				for(let j = 0; j < collisions[i].length; j++) {
-					let cell = this._createCell();
+			// for(let i = 0; i < collisions.length; i++) {
+			// 	for(let j = 0; j < collisions[i].length; j++) {
+			// 		let cell = this._createCell();
 
-					cell.classList.add(`collision-${collisions[i][j]}`);
-					field.appendChild(cell);
-				}
-			}
+			// 		cell.classList.add(`collision-${collisions[i][j]}`);
+			// 		field.appendChild(cell);
+			// 	}
+			// }
 
-			this._map.appendChild(field)
+			// this._map.appendChild(field)
 			//
 	}
 

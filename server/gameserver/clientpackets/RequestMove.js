@@ -20,7 +20,7 @@ class RequestMove {
 
 		let data = {
 			type: "move",
-			data: players.getPlayers()
+			data: player
 		}
 
 		server.send(new Packet(data).encrypt());
