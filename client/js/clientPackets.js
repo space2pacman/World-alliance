@@ -32,7 +32,21 @@ class RequestMove {
 	}
 }
 
+class RequestNpcList {
+	constructor(login, x, y) {
+		this._data = { 
+			type: "requestNpcList",
+			data: {}
+		}
+	}
+
+	getData() {
+		return this._data;
+	}
+}
+
 let clientPackets = {
 	RequestAuth,
-	RequestMove
+	RequestMove,
+	RequestNpcList
 }

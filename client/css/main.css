@@ -995,7 +995,7 @@ body {
   background-image: url("../img/562.png");
 }
 
-.player {
+.npc {
   position: absolute;
   border: 1px solid black;
   box-sizing: border-box;
@@ -1003,7 +1003,7 @@ body {
   background-position-x: -6px;
 }
 
-.player__login {
+.name {
   position: absolute;
   color: #fff;
   text-shadow: 0px 0px 2px black;
@@ -1014,6 +1014,14 @@ body {
   margin-left: 50%;
   width: 200%;
   font-size: 12px;
+}
+
+.player {
+  position: absolute;
+  border: 1px solid black;
+  box-sizing: border-box;
+  background-position-y: -141px;
+  background-position-x: -6px;
 }
 
 .player--walk {

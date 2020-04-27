@@ -156,18 +156,28 @@ class World {
 		this._map.addEventListener(event, handler);
 	}
 
-	addPlayer(player) {
-		this._objects.push(player);
+	addObject(object) {
+		this._objects.push(object);
 	}
 
-	placeObjects(login) {
+	spawnObjects() {
 		for(let i = 0; i < this._objects.length; i++) {
-			if(this._objects[i].getAttribute("login") === login) {
-				this._element.appendChild(this._objects[i]);
-			} else {
-				this._map.appendChild(this._objects[i])
-			}
+			let object = this._objects[i];
 
+			switch(object.getAttribute("type")) {
+				case "player":
+					if(object.getAttribute("login") === login.value) { // fix login - input, global var
+						this._element.appendChild(object);
+					} else {
+						this._map.appendChild(object)
+					}
+
+					break;
+				case "npc":
+					this._map.appendChild(object)
+
+					break;
+			}
 		}
 	}
 
@@ -189,19 +199,19 @@ class World {
 				decryptPacket.data.forEach(data => {
 					if(!this.exists(data.login)) {
 						if(data.login === login.value) { // fix login - input, global var
-							this.addPlayer(player.create());
+							this.addObject(player.create());
 							players.add(player);
 							player.setPosition(this.width / 2 - player.width / 2, this.height / 2 - player.height / 2);
 						} else {
 							let anotherPlayer = new Player(data.login);
 
-							this.addPlayer(anotherPlayer.create());
+							this.addObject(anotherPlayer.create());
 							players.add(anotherPlayer);
 						}
 					}
 				})
 
-				this.placeObjects(login.value); // fix
+				this.spawnObjects();
 
 				break;
 			case "move":
@@ -213,7 +223,18 @@ class World {
 				}
 
 				player.move(x, y, logins);
-			break;
+				
+				break;
+			case "npcList":
+				decryptPacket.data.forEach(data => {
+					let npc = new Npc(data);
+
+					this.addObject(npc.create());
+				})
+
+				this.spawnObjects();
+
+				break;
 		}
 	}
 

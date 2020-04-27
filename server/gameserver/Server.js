@@ -35,6 +35,10 @@ class Server {
 				new this._clientPackets.RequestMove(packet);
 
 				break;
+			case "requestNpcList":
+				new this._clientPackets.RequestNpcList(packet);
+
+				break;
 		}
 	}
 }

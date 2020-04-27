@@ -8,21 +8,23 @@ class Player {
 		this.x = 0;
 		this.y = 0;
 		this._timer = null;
+		this._type = "player";
 		this._init();
 	}
 
 	create() {
-		let login = document.createElement("div");
+		let name = document.createElement("div");
 
-		login.classList.add("player__login");
-		login.innerHTML = this.login;
+		name.classList.add("name");
+		name.innerHTML = this.login;
 		this._character = document.createElement("div");
 		this._character.classList.add("player");
 		this._character.style.backgroundImage = `url(img/character/${this.login}.png)`
 		this._character.style.width = this.width + "px";
 		this._character.style.height = this.height + "px";
 		this._character.setAttribute("login", this.login);
-		this._character.appendChild(login);
+		this._character.setAttribute("type", this._type);
+		this._character.appendChild(name);
 
 		return this._character;
 	}
