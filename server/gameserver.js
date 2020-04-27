@@ -5,5 +5,7 @@ let clientPackets = require("./gameserver/clientpackets/packets");
 let npcList = require("./gameserver/NpcList");
 let players = require("./gameserver/Players");
 
+npcList.addData(require("./data/npc"));
+npcList.create();
 server.setIO(io);
 server.setClientPackets(clientPackets);

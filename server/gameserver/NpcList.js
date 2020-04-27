@@ -1,12 +1,19 @@
+let Npc = require("./Npc");
+
 class NpcList {
 	constructor() {
-		this._list = [{
-			id: 1000,
-			objectId: 1,
-			name: "Roien",
-			x: 100,
-			y: 100
-		}]
+		this._data = null;
+		this._list = []
+	}
+
+	addData(data) {
+		this._data = data;
+	}
+
+	create() {
+		this._data.forEach(item => {
+			this.add(new Npc(item));
+		})
 	}
 
 	add(npc) {
