@@ -19,11 +19,11 @@ class RequestMove {
 		player.y = y;
 
 		let data = {
-			type: "move",
+			type: "playerMove",
 			data: player
 		}
 
-		server.send(new Packet(data).encrypt());
+		server.broadcast(new Packet(data).encrypt());
 	}
 }
 

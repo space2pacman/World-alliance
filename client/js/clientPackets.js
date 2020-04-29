@@ -15,10 +15,10 @@ class RequestAuth {
 	}
 }
 
-class RequestMove {
+class RequestPlayerMove {
 	constructor(login, x, y) {
 		this._data = { 
-			type: "requestMove",
+			type: "requestPlayerMove",
 			data: {
 				login: login,
 				x: x, 
@@ -33,10 +33,10 @@ class RequestMove {
 }
 
 class RequestNpcList {
-	constructor(login, x, y) {
+	constructor(login) {
 		this._data = { 
 			type: "requestNpcList",
-			data: {}
+			data: { login }
 		}
 	}
 
@@ -47,6 +47,6 @@ class RequestNpcList {
 
 let clientPackets = {
 	RequestAuth,
-	RequestMove,
+	RequestPlayerMove,
 	RequestNpcList
 }

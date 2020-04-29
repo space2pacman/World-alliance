@@ -8,7 +8,7 @@ class Players {
 	}
 
 	getPlayer(login) {
-		for(var i = 0; i < this._players.length; i++) {
+		for(let i = 0; i < this._players.length; i++) {
 			if(this._players[i].login === login) {
 				return this._players[i];
 			}

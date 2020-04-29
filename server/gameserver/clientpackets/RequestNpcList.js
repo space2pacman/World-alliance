@@ -9,12 +9,13 @@ class RequestNpcList {
 	}
 
 	_init() {
+		let login = this._packet.data.login;
 		let data = {
 			type: "npcList",
 			data: npcList.getList()
 		}
 
-		server.send(new Packet(data).encrypt());
+		server.send(login, new Packet(data).encrypt());
 	}
 }
 

@@ -214,7 +214,7 @@ class World {
 				this.spawnObjects();
 
 				break;
-			case "move":
+			case "playerMove":
 				let x = decryptPacket.data.x;
 				let y = decryptPacket.data.y;
 				let logins = {
@@ -229,10 +229,20 @@ class World {
 				decryptPacket.data.forEach(data => {
 					let npc = new Npc(data);
 
+					npcList.add(npc);
 					this.addObject(npc.create());
 				})
 
 				this.spawnObjects();
+
+				break;
+			case "npcMove":
+				let objectId = decryptPacket.data.objectId;
+				let npc = npcList.getNpc("objectId", objectId);
+
+				if(npc) {
+					npc.move(decryptPacket.data.x, decryptPacket.data.y)
+				}
 
 				break;
 		}

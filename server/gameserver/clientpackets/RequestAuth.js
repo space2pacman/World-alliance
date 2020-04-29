@@ -4,8 +4,9 @@ let server = require("./../Server");
 let players = require("./../Players");
 
 class RequestAuth {
-	constructor(packet) {
+	constructor(packet, socket) {
 		this._packet = packet;
+		this._socket = socket;
 		this._init();
 	}
 
@@ -30,7 +31,8 @@ class RequestAuth {
 			data: players.getPlayers()
 		}
 
-		server.send(new Packet(data).encrypt());
+		server.addSocket(login, this._socket);
+		server.broadcast(new Packet(data).encrypt());
 	}
 }
 

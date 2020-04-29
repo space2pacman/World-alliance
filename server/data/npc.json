@@ -4,6 +4,17 @@
 		"objectId": 1,
 		"name": "Roien",
 		"x": 100,
-		"y": 100
+		"y": 100,
+		"type": "human",
+		"walk": false
+	},
+	{
+		"id": 1001,
+		"objectId": 2,
+		"name": "Orc",
+		"x": 200,
+		"y": 200,
+		"type": "monster",
+		"walk": true
 	}
 ]
