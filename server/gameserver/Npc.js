@@ -10,15 +10,15 @@ class Npc {
 	}
 
 	move() {
-		let x = this._getRandomNumber(-50, 50);
-		let y = this._getRandomNumber(-50, 50);
-		
+		let x = this._getRandomNumber(-10, 10);
+		let y = this._getRandomNumber(-10, 10);
+
 		this.x += x;
 		this.y += y;
 	}
 
 	_getRandomNumber(min, max) {
-		return min - 0.5 + Math.random() * (max - min + 1);
+		return Math.floor(min - 0.5 + Math.random() * (max - min + 1));
 	}
 }
 

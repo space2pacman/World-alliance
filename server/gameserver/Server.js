@@ -18,7 +18,7 @@ class Server {
 					this.broadcast(JSON.stringify({ type: "npcMove", data: { objectId: npc.objectId, x: npc.x, y: npc.y } }));
 				}
 			})
-		}, 10000)
+		}, 5000)
 		//
 	}
 

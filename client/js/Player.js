@@ -73,8 +73,8 @@ class Player {
 		let player = players.getPlayer(logins.data)
 
 		clearInterval(player._timer);
-		player.dispatchEvent("onStopMove", { player, directions });
-		player.dispatchEvent("onStartMove", { player, direction: player.getDirections(player.x, player.y, x, y) });
+		player.dispatchEvent("onStopMove", { player });
+		player.dispatchEvent("onStartMove", { player, direction: player.getDirections(player.x, player.y, x, y), directions },);
 		player.drawPath(player.x, player.y, x, y, handler.bind(player));
 
 		function handler(currentX, currentY) {
@@ -141,17 +141,17 @@ class Player {
 	_onStartMove(data) {
 		let character = data.detail.player.getCharacter();
 		let direction = data.detail.direction;
+		let directions = data.detail.directions;
 		
+		directions.forEach(direction => character.classList.remove("player--walk-" + direction))
 		character.classList.add("player--walk");
 		character.classList.add("player--walk-" + direction);
 	}
 
 	_onStopMove(data) {
 		let character = data.detail.player.getCharacter();
-		let directions = data.detail.directions;
-		
+
 		character.classList.remove("player--walk");
-		directions.forEach(direction => character.classList.remove("player--walk-" + direction))
 	}
 
 	_init() {

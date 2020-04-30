@@ -75,8 +75,8 @@ class Npc {
 		let directions = ["left", "right", "up", "down"];
 
 		clearInterval(this._timer);
-		this.dispatchEvent("onStopNpcMove", { npc: this, directions });
-		this.dispatchEvent("onStartNpcMove", { npc: this, direction: this.getDirections(this.x, this.y, x, y) });
+		this.dispatchEvent("onStopNpcMove", { npc: this });
+		this.dispatchEvent("onStartNpcMove", { npc: this, direction: this.getDirections(this.x, this.y, x, y), directions });
 		this.drawPath(this.x, this.y, x, y, handler.bind(this));
 
 		function handler(currentX, currentY) {
@@ -121,17 +121,17 @@ class Npc {
 	_onStartNpcMove(data) {
 		let character = data.detail.npc.getCharacter();
 		let direction = data.detail.direction;
+		let directions = data.detail.directions;
 		
+		directions.forEach(direction => character.classList.remove("player--walk-" + direction))
 		character.classList.add("player--walk");
 		character.classList.add("player--walk-" + direction);
 	}
 
 	_onStopNpcMove(data) {
 		let character = data.detail.npc.getCharacter();
-		let directions = data.detail.directions;
 		
 		character.classList.remove("player--walk");
-		directions.forEach(direction => character.classList.remove("player--walk-" + direction))
 	}
 
 	_init() {
