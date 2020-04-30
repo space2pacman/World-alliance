@@ -1,25 +1,10 @@
 let Packet = require("./Packet");
 
-// test
-let npcList = require("./NpcList");
-//
-
 class Server {
 	constructor() {
 		this._io = null;
 		this._clientPackets = null;
 		this._sockets = {};
-
-		// test
-		setInterval(() => {
-			npcList.getList().forEach(npc => {
-				if(npc.walk) {
-					npc.move();
-					this.broadcast(JSON.stringify({ type: "npcMove", data: { objectId: npc.objectId, x: npc.x, y: npc.y } }));
-				}
-			})
-		}, 5000)
-		//
 	}
 
 	addSocket(key, socket) {

@@ -10,8 +10,8 @@ class Npc {
 	}
 
 	move() {
-		let x = this._getRandomNumber(-10, 10);
-		let y = this._getRandomNumber(-10, 10);
+		let x = this._getRandomNumber(-30, 30);
+		let y = this._getRandomNumber(-30, 30);
 
 		this.x += x;
 		this.y += y;
