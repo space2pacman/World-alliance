@@ -74,7 +74,6 @@ body {
 	height: 50px;
   z-index: -1;
   background-size: 100%;
-  border: 1px solid;
   box-sizing: border-box;
 }
 
@@ -996,7 +995,7 @@ body {
 
 .npc {
   position: absolute;
-  border: 1px solid black;
+  border: 1px solid transparent;
   box-sizing: border-box;
   background-position-y: -141px;
   background-position-x: -6px;
@@ -1021,7 +1020,7 @@ body {
 
 .player {
   position: absolute;
-  border: 1px solid black;
+  border: 1px solid transparent;
   box-sizing: border-box;
   background-position-y: -141px;
   background-position-x: -6px;
