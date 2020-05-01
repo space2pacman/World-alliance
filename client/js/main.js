@@ -17,6 +17,12 @@ auth.addEventListener("click", () => {
 	form.classList.add("hidden");
 
 	world.on("click", data => {
+		if(data.target.classList.contains("npc")) {
+			data.target.classList.add("character--selected");
+
+			return false;
+		}
+
 		let requestPlayerMovePacket = new Packet(new clientPackets.RequestPlayerMove(login.value, data.offsetX, data.offsetY).getData());
 
 		player.sendPacket(requestPlayerMovePacket.encrypt());

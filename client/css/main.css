@@ -33,7 +33,6 @@ body {
 }
 
 .world {
-	border: 1px solid black;
 	margin: 50px auto;
 	position: relative;
 }
@@ -1014,6 +1013,10 @@ body {
   margin-left: 50%;
   width: 200%;
   font-size: 12px;
+}
+
+.character--selected {
+  border-color: red;
 }
 
 .player {
