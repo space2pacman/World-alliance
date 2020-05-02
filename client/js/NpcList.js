@@ -7,9 +7,9 @@ class NpcList {
 		this._list.push(npc);
 	}
 
-	getNpc(key, value) {
+	getNpcByObjectId(objectId) {
 		for(let i = 0; i < this._list.length; i++) {
-			if(this._list[i][key] === value) {
+			if(this._list[i].getObjectId() === objectId) {
 				return this._list[i];
 			}
 		}

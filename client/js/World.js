@@ -166,7 +166,7 @@ class World {
 
 			switch(object.getAttribute("type")) {
 				case "player":
-					if(object.getAttribute("login") === login.value) { // fix login - input, global var
+					if(object.getAttribute("name") === login.value) { // fix login - input, global var
 						this._element.appendChild(object);
 					} else {
 						this._map.appendChild(object)
@@ -201,7 +201,7 @@ class World {
 						if(data.login === login.value) { // fix login - input, global var
 							this.addObject(player.create());
 							players.add(player);
-							player.setPosition(this.width / 2 - player.width / 2, this.height / 2 - player.height / 2);
+							player.setPosition(this.width / 2 - player.getWidth() / 2, this.height / 2 - player.getHeight() / 2);
 						} else {
 							let anotherPlayer = new Player(data.login);
 
@@ -238,7 +238,7 @@ class World {
 				break;
 			case "npcMove":
 				let objectId = decryptPacket.data.objectId;
-				let npc = npcList.getNpc("objectId", objectId);
+				let npc = npcList.getNpcByObjectId(objectId);
 
 				if(npc) {
 					npc.move(decryptPacket.data.x, decryptPacket.data.y)

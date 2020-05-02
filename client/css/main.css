@@ -993,14 +993,6 @@ body {
   background-image: url("../img/562.png");
 }
 
-.npc {
-  position: absolute;
-  border: 1px solid transparent;
-  box-sizing: border-box;
-  background-position-y: -141px;
-  background-position-x: -6px;
-}
-
 .name {
   position: absolute;
   color: #fff;
@@ -1014,11 +1006,7 @@ body {
   font-size: 12px;
 }
 
-.character--selected {
-  border-color: red;
-}
-
-.player {
+.character {
   position: absolute;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -1026,23 +1014,27 @@ body {
   background-position-x: -6px;
 }
 
-.player--walk {
+.character--selected {
+  border-color: red;
+}
+
+.character--walk {
   animation: characterWalk .7s infinite step-end;
 }
 
-.player--walk-up {
+.character--walk-up {
   background-position-y: -525px;
 }
 
-.player--walk-left {
+.character--walk-left {
   background-position-y: -591px;
 }
 
-.player--walk-down {
+.character--walk-down {
   background-position-y: -652px;
 }
 
-.player--walk-right {
+.character--walk-right {
   background-position-y: -718px;
 }
 
