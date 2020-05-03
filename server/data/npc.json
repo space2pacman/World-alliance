@@ -1,60 +1,21 @@
 [
 	{
 		"id": 1000,
-		"objectId": 1,
 		"name": "Roien",
 		"x": 100,
 		"y": 100,
+		"zone": null,
+		"count": 1,
 		"type": "human",
 		"walk": false
 	},
 	{
 		"id": 1001,
-		"objectId": 2,
 		"name": "Orc",
 		"x": 200,
 		"y": 200,
 		"zone": [[200, 200], [300, 200], [300, 300], [200, 300]],
-		"type": "monster",
-		"walk": true
-	},
-	{
-		"id": 1001,
-		"objectId": 3,
-		"name": "Orc",
-		"x": 200,
-		"y": 200,
-		"zone": [[200, 200], [300, 200], [300, 300], [200, 300]],
-		"type": "monster",
-		"walk": true
-	},
-	{
-		"id": 1001,
-		"objectId": 4,
-		"name": "Orc",
-		"x": 200,
-		"y": 200,
-		"zone": [[200, 200], [300, 200], [300, 300], [200, 300]],
-		"type": "monster",
-		"walk": true
-	},
-	{
-		"id": 1002,
-		"objectId": 5,
-		"name": "Skeleton",
-		"x": 300,
-		"y": 300,
-		"zone": [[300, 300], [400, 300], [400, 400], [300, 400]],
-		"type": "monster",
-		"walk": true
-	},
-	{
-		"id": 1002,
-		"objectId": 6,
-		"name": "Skeleton",
-		"x": 300,
-		"y": 300,
-		"zone": [[300, 300], [400, 300], [400, 400], [300, 400]],
+		"count": 10,
 		"type": "monster",
 		"walk": true
 	},
@@ -65,36 +26,17 @@
 		"x": 300,
 		"y": 300,
 		"zone": [[300, 300], [400, 300], [400, 400], [300, 400]],
+		"count": 10,
 		"type": "monster",
 		"walk": true
 	},
 	{
 		"id": 1003,
-		"objectId": 8,
 		"name": "Zombie",
 		"x": 400,
 		"y": 400,
 		"zone": [[400, 400], [500, 400], [500, 500], [400, 500]],
-		"type": "monster",
-		"walk": true
-	},
-	{
-		"id": 1003,
-		"objectId": 9,
-		"name": "Zombie",
-		"x": 400,
-		"y": 400,
-		"zone": [[400, 400], [500, 400], [500, 500], [400, 500]],
-		"type": "monster",
-		"walk": true
-	},
-	{
-		"id": 1003,
-		"objectId": 10,
-		"name": "Zombie",
-		"x": 400,
-		"y": 400,
-		"zone": [[400, 400], [500, 400], [500, 500], [400, 500]],
+		"count": 10,
 		"type": "monster",
 		"walk": true
 	}

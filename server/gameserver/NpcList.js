@@ -12,7 +12,10 @@ class NpcList {
 
 	create() {
 		this._data.forEach(item => {
-			this.add(new Npc(item));
+			// creation of all npc of one kind
+			for(let i = 0; i < item.count; i++) {
+				this.add(new Npc(item));
+			}
 		})
 	}
 

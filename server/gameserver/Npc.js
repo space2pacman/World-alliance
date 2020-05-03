@@ -1,11 +1,13 @@
+let idFactory = require("./../util/idFactory");
+
 class Npc {
 	constructor(params) {
 		this.id = params.id;
-		this.objectId = params.objectId;
+		this.objectId = idFactory.getNextId();
 		this.name = params.name;
 		this.x = params.x;
 		this.y = params.y;
-		this.zone = params.zone;
+		this.zone = params.zone || null;
 		this.type = params.type;
 		this.walk = params.walk;
 	}

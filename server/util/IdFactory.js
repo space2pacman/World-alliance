@@ -1,4 +1,4 @@
-var fs = require("fs");
+let fs = require("fs");
 
 class IdFactory {
 	constructor() {
@@ -21,7 +21,7 @@ class IdFactory {
 
 	_loadFile() {
 		let file = fs.readFileSync(this._path, "utf-8");
-		
+
 		if(file.length === 0) {
 			return false;
 		} else {
