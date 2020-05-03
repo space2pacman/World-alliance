@@ -17,7 +17,7 @@ auth.addEventListener("click", () => {
 	form.classList.add("hidden");
 
 	world.on("click", data => {
-		if(data.target.classList.contains("npc")) {
+		if(data.target.classList.contains("character")) {
 			data.target.classList.add("character--selected");
 
 			return false;

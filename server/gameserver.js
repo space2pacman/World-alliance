@@ -5,7 +5,9 @@ let clientPackets = require("./gameserver/clientpackets/packets");
 let npcList = require("./gameserver/NpcList");
 let players = require("./gameserver/Players");
 let tasks = require("./gameserver/Tasks");
+let idFactory = require("./util/idFactory");
 
+idFactory.addFilePath("./data/idstate.json");
 npcList.addData(require("./data/npc"));
 npcList.create();
 tasks.npcMove();

@@ -5,6 +5,10 @@ class Player extends Character {
 		this._socket = socket;
 	}
 
+	getSocket() {
+		return this._socket;
+	}
+
 	create() {
 		let name = document.createElement("div");
 		let character = this.getCharacter();
@@ -59,6 +63,8 @@ class Player extends Character {
 	}
 
 	sendPacket(data) {
-		this._socket.emit("onClient", data);
+		let socket = this.getSocket();
+
+		socket.emit("onClient", data);
 	}
 }
