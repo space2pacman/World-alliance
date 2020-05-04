@@ -32,8 +32,8 @@ class Player extends Character {
 		let player = players.getPlayer(logins.data)
 
 		player.stopDrawPath();
-		player.dispatchEvent("onStopCharacterMove", { character: this.getCharacter() });
-		player.dispatchEvent("onStartCharacterMove", { character: this.getCharacter(), direction: player.getDirections(player.getX(), player.getY(), x, y), directions },);
+		player.dispatchEvent("onStopCharacterMove", { character: player.getCharacter() });
+		player.dispatchEvent("onStartCharacterMove", { character: player.getCharacter(), direction: player.getDirections(player.getX(), player.getY(), x, y), directions },);
 		player.startDrawPath(player.getX(), player.getY(), x, y, handler.bind(player));
 
 		function handler(currentX, currentY) {
