@@ -28,6 +28,7 @@ class Npc extends Character {
 		character.style.height = this.getHeight() + "px";
 		character.style.left = this.getX() + "px";
 		character.style.top = this.getY() + "px";
+		character.style.zIndex = this.getY();
 		character.setAttribute("type", this.getType());
 		character.appendChild(name);
 
@@ -37,16 +38,17 @@ class Npc extends Character {
 	move(x, y) {
 		let directions = ["left", "right", "up", "down"];
 
-		clearInterval(this.getTimerId());
+		this.stopDrawPath();
 		this.dispatchEvent("onStopCharacterMove", { character: this.getCharacter() });
 		this.dispatchEvent("onStartCharacterMove", { character: this.getCharacter(), direction: this.getDirections(this.getX(), this.getY(), x, y), directions });
-		this.drawPath(this.getX(), this.getY(), x, y, handler.bind(this));
+		this.startDrawPath(this.getX(), this.getY(), x, y, handler.bind(this));
 
 		function handler(currentX, currentY) {
 			let character = this.getCharacter();
 
 			character.style.left = (currentX - 25) + "px";
 			character.style.top = (currentY - 25) + "px";
+			character.style.zIndex = (currentY - 25);
 			this.setX(currentX);
 			this.setY(currentY);
 

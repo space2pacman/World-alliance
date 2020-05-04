@@ -1006,6 +1006,10 @@ body {
   font-size: 12px;
 }
 
+.name::selection {
+    background: none;
+}
+
 .character {
   position: absolute;
   border: 1px solid transparent;

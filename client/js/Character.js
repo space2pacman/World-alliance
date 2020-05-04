@@ -97,7 +97,7 @@ class Character {
 		character.style.top = y + "px";
 	}
 
-	drawPath(x1, y1, x2, y2, callback) {
+	startDrawPath(x1, y1, x2, y2, callback) {
 		let deltaX = Math.abs(x2 - x1);
 		let deltaY = Math.abs(y2 - y1);
 		let signX = x1 < x2 ? 1 : -1;
@@ -123,6 +123,10 @@ class Character {
 				callback(x1, y1);
 			}
 		}
+	}
+
+	stopDrawPath() {
+		clearInterval(this.getTimerId());
 	}
 
 	_onStartCharacterMove(data) {

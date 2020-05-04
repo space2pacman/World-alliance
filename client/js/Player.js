@@ -19,6 +19,7 @@ class Player extends Character {
 		character.style.backgroundImage = `url(img/${this.getType()}/${this.getName()}.png)`;
 		character.style.width = this.getWidth() + "px";
 		character.style.height = this.getHeight() + "px";
+		character.style.zIndex = this.getY();
 		character.setAttribute("name", this.getName());
 		character.setAttribute("type", this.getType());
 		character.appendChild(name);
@@ -30,10 +31,10 @@ class Player extends Character {
 		let directions = ["left", "right", "up", "down"];
 		let player = players.getPlayer(logins.data)
 
-		clearInterval(player.getTimerId());
+		player.stopDrawPath();
 		player.dispatchEvent("onStopCharacterMove", { character: this.getCharacter() });
 		player.dispatchEvent("onStartCharacterMove", { character: this.getCharacter(), direction: player.getDirections(player.getX(), player.getY(), x, y), directions },);
-		player.drawPath(player.getX(), player.getY(), x, y, handler.bind(player));
+		player.startDrawPath(player.getX(), player.getY(), x, y, handler.bind(player));
 
 		function handler(currentX, currentY) {
 			let character = this.getCharacter();
@@ -48,9 +49,11 @@ class Player extends Character {
 				}
 
 				window.dispatchEvent(new CustomEvent("moveMap", data))
+				character.style.zIndex = (currentY - 25);
 			} else {
 				character.style.left = (currentX - 25) + "px";
 				character.style.top = (currentY - 25) + "px";
+				character.style.zIndex = (currentY - 25);
 			}
 
 			this.setX(currentX);
