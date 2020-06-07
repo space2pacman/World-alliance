@@ -22,6 +22,12 @@ class Npc extends Character {
 		character.classList.add("character--selected");
 	}
 
+	unselectTarget() {
+		let character = this.getCharacter();
+
+		character.classList.remove("character--selected");
+	}
+
 	create() {
 		let name = document.createElement("div");
 		let character = this.getCharacter();

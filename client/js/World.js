@@ -259,7 +259,15 @@ class World {
 					case "npc":
 						let npc = npcList.getByObjectId(data.objectId);
 
-						npc.selectTarget()
+						npcList.each(npc => {
+							let objectId = npc.getObjectId();
+
+							if(data.objectId === objectId) {
+								npc.selectTarget()
+							} else {
+								npc.unselectTarget();
+							}
+						})
 
 						break;
 				}
