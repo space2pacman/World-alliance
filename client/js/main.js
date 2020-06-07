@@ -17,11 +17,18 @@ auth.addEventListener("click", () => {
 	form.classList.add("hidden");
 
 	world.on("click", data => {
-		if(data.target.classList.contains("character")) {
-			data.target.classList.add("character--selected");
+		if(world.isCharacter(data)) {
+			let requestTargetPacket = new Packet(new clientPackets.RequestTarget(data).getData());
 
+			player.sendPacket(requestTargetPacket.encrypt());
+			
 			return false;
 		}
+
+		// if(data.target.classList.contains("character")) {
+		// 	data.target.classList.add("character--selected");
+
+		// }
 
 		let requestPlayerMovePacket = new Packet(new clientPackets.RequestPlayerMove(login.value, data.offsetX, data.offsetY).getData());
 

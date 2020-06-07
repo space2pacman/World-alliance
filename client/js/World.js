@@ -191,6 +191,14 @@ class World {
 		return values.includes(value);
 	}
 
+	isCharacter(element) {
+		if(element.target.classList.contains("character")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	onServer(data) {
 		let decryptPacket = new Packet(data).decrypt();
 
@@ -238,11 +246,14 @@ class World {
 				break;
 			case "npcMove":
 				let objectId = decryptPacket.data.objectId;
-				let npc = npcList.getNpcByObjectId(objectId);
+				let npc = npcList.getByObjectId(objectId);
 
 				if(npc) {
-					npc.move(decryptPacket.data.x, decryptPacket.data.y)
+					npc.move(decryptPacket.data.x, decryptPacket.data.y);
 				}
+
+				break;
+			case "targetSelected":
 
 				break;
 		}
