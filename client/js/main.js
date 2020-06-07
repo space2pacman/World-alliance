@@ -18,21 +18,16 @@ auth.addEventListener("click", () => {
 
 	world.on("click", data => {
 		if(world.isCharacter(data)) {
-			let requestTargetPacket = new Packet(new clientPackets.RequestTarget(data).getData());
+			let requestTargetPacket = new Packet(new clientPackets.RequestTarget(login.value, data).getData());
 
 			player.sendPacket(requestTargetPacket.encrypt());
+		} else {
+			let requestPlayerMovePacket = new Packet(new clientPackets.RequestPlayerMove(login.value, data.offsetX, data.offsetY).getData());
 			
-			return false;
+			player.sendPacket(requestPlayerMovePacket.encrypt());
 		}
 
-		// if(data.target.classList.contains("character")) {
-		// 	data.target.classList.add("character--selected");
 
-		// }
-
-		let requestPlayerMovePacket = new Packet(new clientPackets.RequestPlayerMove(login.value, data.offsetX, data.offsetY).getData());
-
-		player.sendPacket(requestPlayerMovePacket.encrypt());
 	});
 
 	socket.on("onServer", world.onServer.bind(world));

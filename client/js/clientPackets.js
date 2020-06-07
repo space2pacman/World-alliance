@@ -48,7 +48,7 @@ class RequestNpcList {
 }
 
 class RequestTarget {
-	constructor(data) {
+	constructor(login, data) {
 		let type = data.target.getAttribute("type");
 		let objectId;
 
@@ -67,6 +67,7 @@ class RequestTarget {
 			type: "requestTarget",
 			data: {
 				type,
+				login,
 				objectId
 			}
 		}

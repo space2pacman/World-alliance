@@ -54,6 +54,10 @@ class Server {
 				new this._clientPackets.RequestNpcList(packet);
 
 				break;
+			case "requestTarget":
+				new this._clientPackets.RequestTarget(packet);
+
+				break;
 		}
 
 	}

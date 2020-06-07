@@ -199,12 +199,14 @@ class World {
 		}
 	}
 
-	onServer(data) {
-		let decryptPacket = new Packet(data).decrypt();
+	onServer(packet) {
+		let decryptPacket = new Packet(packet).decrypt();
+		let data = decryptPacket.data;
+		let type = decryptPacket.type;
 
-		switch(decryptPacket.type) {
+		switch(type) {
 			case "playersInfo":
-				decryptPacket.data.forEach(data => {
+				data.forEach(data => {
 					if(!this.exists(data.login)) {
 						if(data.login === login.value) { // fix login - input, global var
 							this.addObject(player.create());
@@ -223,10 +225,10 @@ class World {
 
 				break;
 			case "playerMove":
-				let x = decryptPacket.data.x;
-				let y = decryptPacket.data.y;
+				let x = data.x;
+				let y = data.y;
 				let logins = {
-					data: decryptPacket.data.login,
+					data: data.login,
 					current: login.value // fix
 				}
 
@@ -234,7 +236,7 @@ class World {
 				
 				break;
 			case "npcList":
-				decryptPacket.data.forEach(data => {
+				data.forEach(data => {
 					let npc = new Npc(data);
 
 					npcList.add(npc);
@@ -245,15 +247,22 @@ class World {
 
 				break;
 			case "npcMove":
-				let objectId = decryptPacket.data.objectId;
-				let npc = npcList.getByObjectId(objectId);
+				let npc = npcList.getByObjectId(data.objectId);
 
 				if(npc) {
-					npc.move(decryptPacket.data.x, decryptPacket.data.y);
+					npc.move(data.x, data.y);
 				}
 
 				break;
 			case "targetSelected":
+				switch(data.type) {
+					case "npc":
+						let npc = npcList.getByObjectId(data.objectId);
+
+						npc.selectTarget()
+
+						break;
+				}
 
 				break;
 		}
