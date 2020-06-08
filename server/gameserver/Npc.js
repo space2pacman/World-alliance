@@ -10,6 +10,7 @@ class Npc {
 		this.zone = params.zone || null;
 		this.type = params.type;
 		this.walk = params.walk;
+		this.hp = params.hp;
 	}
 
 	move() {

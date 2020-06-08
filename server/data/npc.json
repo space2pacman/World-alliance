@@ -7,7 +7,8 @@
 		"zone": null,
 		"count": 1,
 		"type": "human",
-		"walk": false
+		"walk": false,
+		"hp": 1000
 	},
 	{
 		"id": 1001,
@@ -17,7 +18,8 @@
 		"zone": [[200, 200], [300, 200], [300, 300], [200, 300]],
 		"count": 10,
 		"type": "monster",
-		"walk": true
+		"walk": true,
+		"hp": 10
 	},
 	{
 		"id": 1002,
@@ -28,7 +30,8 @@
 		"zone": [[300, 300], [400, 300], [400, 400], [300, 400]],
 		"count": 10,
 		"type": "monster",
-		"walk": true
+		"walk": true,
+		"hp": 20
 	},
 	{
 		"id": 1003,
@@ -38,6 +41,7 @@
 		"zone": [[400, 400], [500, 400], [500, 500], [400, 500]],
 		"count": 10,
 		"type": "monster",
-		"walk": true
+		"walk": true,
+		"hp": 30
 	}
 ]

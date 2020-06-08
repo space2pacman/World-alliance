@@ -4,8 +4,17 @@ class Npc extends Character {
 
 		this._id = params.id;
 		this._objectId = params.objectId;
+		this.setHp(params.hp);
 		this.setX(params.x);
 		this.setY(params.y);
+	}
+
+	getHp() {
+		return this._hp;
+	}
+
+	setHp(hp) {
+		this._hp = hp;
 	}
 
 	getId() {
@@ -30,10 +39,18 @@ class Npc extends Character {
 
 	create() {
 		let name = document.createElement("div");
+		let hp = document.createElement("div");
+		let currentHp = document.createElement("div");
 		let character = this.getCharacter();
 
 		name.classList.add("name");
 		name.innerHTML = this.getName();
+		
+		hp.classList.add("character__hp");
+		currentHp.classList.add("character__hp-current");
+		currentHp.style.width = "30%"; // fix
+		hp.appendChild(currentHp);
+
 		character.classList.add("character");
 		character.style.backgroundImage = `url(img/${this.getType()}/${this.getId()}.png)`;
 		character.style.width = this.getWidth() + "px";
@@ -43,6 +60,7 @@ class Npc extends Character {
 		character.style.zIndex = this.getY();
 		character.setAttribute("type", this.getType());
 		character.appendChild(name);
+		character.appendChild(hp);
 
 		return character;
 	}
