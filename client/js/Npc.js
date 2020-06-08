@@ -4,13 +4,18 @@ class Npc extends Character {
 
 		this._id = params.id;
 		this._objectId = params.objectId;
-		this.setHp(params.hp);
+		this._hp = params.hp;
+		this._maximumHp = params.hp;
 		this.setX(params.x);
 		this.setY(params.y);
 	}
 
 	getHp() {
 		return this._hp;
+	}
+
+	getHpPercentage() {
+		return (this._hp / this._maximumHp) * 100;
 	}
 
 	setHp(hp) {
@@ -48,7 +53,7 @@ class Npc extends Character {
 		
 		hp.classList.add("character__hp");
 		currentHp.classList.add("character__hp-current");
-		currentHp.style.width = "30%"; // fix
+		currentHp.style.width = this.getHpPercentage() + "%";
 		hp.appendChild(currentHp);
 
 		character.classList.add("character");
