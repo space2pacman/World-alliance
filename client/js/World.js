@@ -145,6 +145,7 @@ class World {
 		this._element = document.querySelector(element);
 		this._objects = [];
 		this._map = null;
+		this._mainPlayer = null;
 		this._cellWidth = cellWidth;
 		this._cellHeight = cellHeight;
 		this._createMap();
@@ -156,6 +157,14 @@ class World {
 		this._map.addEventListener(event, handler);
 	}
 
+	setMainPlayer(player) {
+		this._mainPlayer = player;
+	}
+
+	getMainPlayer() {
+		return this._mainPlayer;
+	}
+
 	addObject(object) {
 		this._objects.push(object);
 	}
@@ -163,10 +172,11 @@ class World {
 	spawnObjects() {
 		for(let i = 0; i < this._objects.length; i++) {
 			let object = this._objects[i];
+			let player = this.getMainPlayer();
 
 			switch(object.getAttribute("type")) {
 				case "player":
-					if(object.getAttribute("name") === login.value) { // fix login - input, global var
+					if(object.getAttribute("name") === player.getName()) {
 						this._element.appendChild(object);
 					} else {
 						this._map.appendChild(object)
@@ -203,12 +213,13 @@ class World {
 		let decryptPacket = new Packet(packet).decrypt();
 		let data = decryptPacket.data;
 		let type = decryptPacket.type;
+		let player = this.getMainPlayer();
 
 		switch(type) {
 			case "playersInfo":
 				data.forEach(data => {
 					if(!this.exists(data.login)) {
-						if(data.login === login.value) { // fix login - input, global var
+						if(data.login === player.getName()) {
 							this.addObject(player.create());
 							players.add(player);
 							player.setPosition(this.width / 2 - player.getWidth() / 2, this.height / 2 - player.getHeight() / 2);
@@ -229,7 +240,7 @@ class World {
 				let y = data.y;
 				let logins = {
 					data: data.login,
-					current: login.value // fix
+					current: player.getName()
 				}
 
 				player.move(x, y, logins);
