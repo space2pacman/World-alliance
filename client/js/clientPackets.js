@@ -94,6 +94,22 @@ class RequestAttack {
 	}
 }
 
+class RequestStatus {
+	constructor(login, objectId) {
+		this._data = {
+			type: "requestStatus",
+			data: {
+				login,
+				objectId
+			}
+		}
+	}
+
+	getData() {
+		return this._data;
+	}
+}
+
 let clientPackets = {
 	RequestAuth,
 	RequestPlayerMove,

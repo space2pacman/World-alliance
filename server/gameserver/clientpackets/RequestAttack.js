@@ -12,6 +12,7 @@ class RequestAttack {
 	_init() {
 		let login = this._packet.data.login;
 		let objectId = this._packet.data.objectId;
+		let player = players.getPlayer(login);
 
 		let data = {
 			type: "Attack",
@@ -21,6 +22,7 @@ class RequestAttack {
 			}
 		}
 		
+		player.attack(objectId);
 		server.broadcast(new Packet(data).encrypt());
 	}
 }

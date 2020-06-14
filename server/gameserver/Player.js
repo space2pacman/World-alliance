@@ -1,3 +1,6 @@
+let server = require("./Server");
+let serverPackets = require("./serverpackets/packets");
+
 class Player {
 	constructor(params) {
 		this.login = params.login;
@@ -12,6 +15,11 @@ class Player {
 	setTarget(type, objectId) {
 		this._target.type = type;
 		this._target.objectId = objectId;
+	}
+
+	attack(objectId) {
+		// object.objectId, object.hp, object.maximumHp
+		server.broadcast(new serverPackets.StatusUpdate(objectId).getData()); // fix
 	}
 }
 
