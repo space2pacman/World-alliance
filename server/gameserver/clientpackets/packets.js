@@ -2,5 +2,6 @@ module.exports = {
 	RequestAuth: require("./RequestAuth"),
 	RequestPlayerMove: require("./RequestPlayerMove"),
 	RequestNpcList: require("./RequestNpcList"),
-	RequestTarget: require("./RequestTarget")
+	RequestTarget: require("./RequestTarget"),
+	RequestAttack: require("./RequestAttack")
 }

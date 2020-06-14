@@ -8,6 +8,7 @@ class Character {
 		this._height = 50;
 		this._x = 0;
 		this._y = 0;
+		this._target = null;
 		this._init();
 	}
 
@@ -61,6 +62,14 @@ class Character {
 
 	setY(y) {
 		this._y = y;
+	}
+
+	getTarget() {
+		return this._target;
+	}
+
+	setTarget(objectId) {
+		this._target = objectId;
 	}
 
 	getAngle(x1, y1, x2, y2) {

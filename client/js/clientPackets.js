@@ -78,9 +78,26 @@ class RequestTarget {
 	}
 }
 
+class RequestAttack {
+	constructor(login, objectId) {
+		this._data = {
+			type: "requestAttack",
+			data: {
+				login,
+				objectId
+			}
+		}
+	}
+
+	getData() {
+		return this._data;
+	}
+}
+
 let clientPackets = {
 	RequestAuth,
 	RequestPlayerMove,
 	RequestNpcList,
-	RequestTarget
+	RequestTarget,
+	RequestAttack
 }

@@ -65,6 +65,12 @@ class Player extends Character {
 		}
 	}
 
+	attack() {
+		let character = this.getCharacter();
+
+		character.classList.add("character--attack");
+	}
+
 	sendPacket(data) {
 		let socket = this.getSocket();
 

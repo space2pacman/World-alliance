@@ -157,6 +157,14 @@ class World {
 		this._map.addEventListener(event, handler);
 	}
 
+	show() {
+		this._element.classList.remove("hidden");
+	}
+
+	hide() {
+		this._element.classList.add("hidden");
+	}
+
 	setMainPlayer(player) {
 		this._mainPlayer = player;
 	}
@@ -282,6 +290,14 @@ class World {
 
 						break;
 				}
+
+				player.setTarget(data.objectId);
+
+				break;
+			case "Attack":
+				let character = players.getPlayer(data.login); // fix to player
+
+				character.attack(data.objectId);
 
 				break;
 		}

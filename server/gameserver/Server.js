@@ -58,6 +58,10 @@ class Server {
 				new this._clientPackets.RequestTarget(packet);
 
 				break;
+			case "requestAttack":
+				new this._clientPackets.RequestAttack(packet);
+
+				break;
 		}
 
 	}

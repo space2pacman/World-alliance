@@ -3,6 +3,20 @@ body {
   overflow: hidden;
 }
 
+.panel__skills {
+  position: absolute;
+  bottom: 0px;
+  display: flex;
+}
+
+.panel__skill {
+  width: 50px;
+  height: 50px;
+  background: #f0f;
+  border: 1px solid;
+  box-sizing: border-box;
+}
+
 .form {
   margin-top: 100px;
   display: flex;
@@ -40,12 +54,6 @@ body {
 .map {
 	position: absolute;
 }
-
-/* for test */
-.collision-101 {
-  background: #0f0;
-}
-/* for test */
 
 .map:after {
   content: "";
@@ -1060,6 +1068,11 @@ body {
   background-position-y: -718px;
 }
 
+.character--attack {
+  animation: characterAttack .7s infinite step-end;
+  background-position-y: -975px;
+}
+
 @keyframes characterWalk {
   0% {
     background-position-x: -6px;
@@ -1087,5 +1100,26 @@ body {
   }
   88% {
     background-position-x: -518px;
+  }
+}
+
+@keyframes characterAttack {
+  0% {
+    background-position-x: -6px;
+  }
+  16% {
+    background-position-x: -70px;
+  }
+  32% {
+    background-position-x: -134px;
+  }
+  48% {
+    background-position-x: -198px;
+  }
+  64% {
+    background-position-x: -262px;
+  }
+  80% {
+    background-position-x: -326px;
   }
 }
