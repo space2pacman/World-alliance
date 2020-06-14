@@ -10,6 +10,6 @@ let idFactory = require("./util/idFactory");
 idFactory.addFilePath("./data/idstate.json");
 npcList.addData(require("./data/npc"));
 npcList.create();
-tasks.npcMove();
+tasks.startNpcMove();
 server.setIO(io);
 server.setClientPackets(clientPackets);

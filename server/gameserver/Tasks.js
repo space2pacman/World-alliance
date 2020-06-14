@@ -3,7 +3,7 @@ let server = require("./Server");
 let Packet = require("./Packet");
 
 class Tasks {
-	npcMove() {
+	startNpcMove() {
 		setTimeout(callback, 3000);
 
 		function callback() {
