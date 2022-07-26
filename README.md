@@ -1,4 +1,4 @@
-# pacman mmorpg
+# World alliance
 mmorpg engine on node.js  
 run server(terminal): node server/gameserver.js  
 run client(browser): client/index.html  
